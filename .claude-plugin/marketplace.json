@@ -1,0 +1,16 @@
+{
+  "name": "claude-bridge",
+  "version": "0.1.0",
+  "description": "Session-to-session bridge for Claude Code.",
+  "repository": "https://github.com/timgillASA/claude-bridge",
+  "owner": {
+    "name": "Tim Gill"
+  },
+  "plugins": [
+    {
+      "name": "claude-bridge",
+      "source": "./",
+      "description": "Turn-based conversation between two or more Claude Code sessions over one shared markdown file."
+    }
+  ]
+}
