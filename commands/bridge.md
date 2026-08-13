@@ -19,8 +19,17 @@ Resolve it before anything else:
    their own path. Create the folder, write the chosen path to
    `~/.claude/bridge-dir.txt` as a single line, and confirm in one line.
 
-        Get-PSDrive -PSProvider FileSystem |
-          Select-Object Name, @{n='FreeGB';e={[math]::Round($_.Free/1GB)}}
+        Get-CimInstance Win32_LogicalDisk -Filter 'DriveType=3' |
+          Select-Object DeviceID,
+            @{n='FreeGB';e={[math]::Round($_.FreeSpace/1GB)}},
+            @{n='TotalGB';e={[math]::Round($_.Size/1GB)}}
+
+   `DriveType=3` is fixed local disks. **Do not offer a network drive**, however
+   much free space it reports: the watch loop stats the bridge file every five
+   seconds, and the whole cost model assumes that is a cheap local call. A
+   mapped share is also shared, so two machines could open the same bridge with
+   no idea the other exists. Free space alone is a bad ranking -- the largest
+   number on a machine is often a NAS mount.
 
 3. **Never put it inside a repo or inside `~/.claude`.** Bridge files are
    runtime conversation, not configuration or source. One committed by

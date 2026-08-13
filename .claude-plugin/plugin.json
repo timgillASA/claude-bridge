@@ -1,6 +1,6 @@
 {
   "name": "claude-bridge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A file-based, turn-based channel that lets two or more Claude Code sessions converse without a human relaying messages between terminals. Windows-safe fallback for setups without native cross-session messaging.",
   "author": {
     "name": "Tim Gill"
