@@ -155,6 +155,25 @@ a stranger it never expected.
 `Win32_LogicalDisk` with `DriveType=3` returns fixed local disks only, which is
 what the surrounding prose always claimed to be asking for.
 
+**Then the same defect turned up one layer down.** Verifying that fix on a
+second machine reproduced the original bug -- six network drives listed, and the
+drive with the most free space of any drive on the box was a mapped share -- but
+it also showed that the fixed-disk filter is not sufficient. On that machine the
+roomiest *local* disk, by a wide margin, was an external backup SSD: `DriveType`
+3, `BusType` USB. The corrected probe would have ranked a detachable drive
+first.
+
+That matters more here than it looks. A bridge folder on a drive that gets
+unplugged does not fail loudly. The watch loop suppresses errors on its
+`Get-Item`, so the file's last-write time comes back null, compares unequal to
+the previous value, and the loop reports `CHANGED`. Every session wakes and
+re-reads a file that no longer exists. The failure presents as activity.
+
+The lesson is the same one twice: **a probe that answers a slightly different
+question than the prose asks will be wrong in a way the prose cannot see, and
+ranking by a single number picks exactly the wrong candidate.** Rank by
+suitability and check the bus.
+
 ## STOP is not the end of the file
 
 Dropping the STOP marker ends every watcher. Anything appended afterward wakes

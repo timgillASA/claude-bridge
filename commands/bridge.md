@@ -31,6 +31,19 @@ Resolve it before anything else:
    no idea the other exists. Free space alone is a bad ranking -- the largest
    number on a machine is often a NAS mount.
 
+   **`DriveType=3` also includes USB disks**, which are detachable however fixed
+   they claim to be, and an external backup SSD is often the emptiest drive on
+   the machine. Rank by suitability, not by free space, and check the bus before
+   proposing the winner:
+
+        Get-Partition -DriveLetter <X> | Get-Disk | Select-Object BusType
+
+   Prefer an internal disk (`NVMe`, `SATA`, `RAID`, `SAS`). If the roomiest
+   candidate is `USB`, say so and propose the next one instead. A bridge folder
+   on a drive that gets unplugged does not fail loudly: the watch loop's
+   `Get-Item` is error-suppressed, so a vanished file reads as a changed file
+   and every session wakes up to read something that is no longer there.
+
 3. **Never put it inside a repo or inside `~/.claude`.** Bridge files are
    runtime conversation, not configuration or source. One committed by
    accident is a conversation living in somebody's git history forever.
