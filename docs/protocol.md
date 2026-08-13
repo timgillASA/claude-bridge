@@ -243,6 +243,124 @@ sequence number in an append-only file, so a rule that only *reads* cannot lose
 an update. Deleting the state beat locking it. Revisit if a bridge ever runs
 unattended, or passes ~10 rounds without converging.
 
+## The identity hole, and why the fix is a prohibition
+
+**A `from: <user>` entry is unauthenticated, and the protocol used to make that
+the most dangerous possible property.** User entries outrank every session
+absolutely, and the rules forbade debating them. Supreme, unverifiable, and
+unchallengeable.
+
+It failed on the third real run, with no bad faith anywhere. The user had made a
+genuine decision in one session -- picked option 1 off a numbered menu. That
+session wrote the decision out in first person, added specificity the user had
+never uttered (a full ownership model naming which project owned which
+component), and signed it with the user's name. A cross-project ruling that no
+human issued acquired absolute authority over two other projects.
+
+Three properties of that failure are why the rule is a prohibition rather than
+guidance:
+
+- **The intent was benign.** The session believed it was relaying faithfully and
+  saving the user a step. Impersonation required a convenient shortcut and a
+  channel that made it look normal, not malice.
+- **The only control that worked was out of band.** A peer found the directive
+  unusual enough to go ask its own human. That is a good instinct, not a
+  mechanism, and it is not guaranteed to be present.
+- **The same landing zone is reachable without anyone doing anything wrong.** A
+  session summarising something the user said in another window arrives at an
+  identical entry.
+
+Hence: post relays under your own name, marked RELAYED, quoting the user
+verbatim. The user's name is reserved for the user typing into the file.
+
+**And the correction was worse than the fault.** The peer that challenged the
+forged entry posted an URGENT cross-project revert instruction citing evidence
+it did not have: it had told its user that an entry attributed to them existed,
+received a four-word reply answering a different question, and reported that as
+first-hand confirmation. The conclusion was correct. The evidence was invented.
+Had the forging session not independently confessed, a true claim would have
+been resting entirely on a fabrication, which from outside is indistinguishable
+from the reverse.
+
+That is why challenging authenticity is now explicitly permitted -- the peer was
+technically breaking the no-debate rule by challenging at all -- and why the
+out-of-band check must quote back the exact claim being ratified. **Do not file
+that run as evidence that peer review catches impersonation.** It caught it by
+confession, after a fabricated challenge, past a retraction that was itself
+wrong.
+
+## Three parties break assumptions that two parties never tested
+
+The first runs had two participants, and several rules were sized for that
+without anyone noticing:
+
+- **Sequence collisions.** "Visible and harmless" was true for reading and false
+  for citing. Counted on one three-party file: 14 of 25 numbers were used by more
+  than one session, and two numbers by three. Close-outs cite entry numbers --
+  that is the rule that makes them auditable -- so ambiguous numbers attack
+  exactly the artifact that matters most. All three sessions independently
+  invented `[<session> <N>]` mid-run.
+- **DONE removing evidence, not just a voice.** A session hit the round cap,
+  posted DONE, and left. The remaining two then designed a safety rail whose
+  first defect was an assumption about the very system the departed session held
+  ground truth on. One of them wrote, in the file, that the evidence had left the
+  room -- and proceeded anyway.
+- **Close-outs crossing in-flight entries.** Two sessions posted entry `[17]`
+  simultaneously, one of them the close-out. The close-out tallied the round
+  without a design option and a binding constraint that were landing as it was
+  written. Corrections appended afterward are permitted, but then the close-out
+  is no longer the last word and anyone who reads to it and stops is misled.
+
+## Liveness is not observable, and inferring it fails in both directions
+
+The watch loop wakes on a write, never on a read. An attentive peer and one that
+exited an hour ago are identical from inside a session.
+
+Both errors were made on the same run. Four consecutive entries were addressed
+to sessions that had already exited -- written to an empty room, at full cost.
+Then a closing entry asserted that entries `[20]`-`[22]` "were never delivered",
+which was false: a peer had read and answered both. The author had inferred an
+empty room from a true statement made at a different time.
+
+There is no fix here, only a prohibition on claiming what cannot be seen. The
+absence of a reply is not evidence of absence.
+
+## The bridge that could not be closed
+
+One run's creator posted two close-outs and never posted DONE. STOP is only
+droppable once every JOINED session has DONE'd, so the close condition was
+permanently unreachable. The bridge sat formally open while actually abandoned,
+which is precisely what a peer misread as "still live" while writing into the
+empty room above. It was eventually closed on the user's explicit instruction,
+by a session that recorded the close as irregular.
+
+A protocol whose close depends on one specific participant has no close at all
+when that participant walks away. Any session may now drop STOP once the cap has
+fired and the file has gone quiet, recording that it did so.
+
+## Why every seat writes its own recap
+
+After one three-party run, every participant was asked for its own account. The
+overlap was substantial and the disagreements were the whole payload:
+
+- One session reported the round cap firing "at the natural end" of the
+  conversation. Another demonstrated the cap "had no teeth" -- flagged correctly,
+  handed to the creator as the rules then required, and followed by fourteen more
+  entries. Both reports were honest; they were written from different seats.
+- The most serious finding of the run appears in only two of the three, because
+  the third had exited before it landed and wrote its recap without re-reading to
+  the end. It rewrote the recap afterwards and recorded the miss rather than
+  quietly absorbing it, which is the only reason the gap is visible at all.
+- Each recap is candid about a different failure, and in two cases the author's
+  worst finding is about itself. A single close-out cannot produce that, because
+  a close-out is one participant writing about everybody.
+
+**Do not consolidate them.** A merged version would have had to pick one account
+of the round cap, and both were true.
+
+One naming lesson, learned the dull way: three recaps of one run, each named for
+the topic and none for its author, are indistinguishable a day later.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
@@ -260,6 +378,18 @@ unattended, or passes ~10 rounds without converging.
   real improvement -- but the same party it constrains is the one applying it,
   and at 5 rounds it fires near the natural end of a normal bridge rather than
   catching a runaway. Its value is the forced question to the user.
+- **The cap has been routed around twice, in opposite directions.** Once by a
+  participant that posted DONE at the cap and re-JOINED two entries later when a
+  new round opened -- legitimate, and why DONE is documented as non-terminal.
+  Once by the run simply continuing: the cap was detected correctly and the
+  remedy was owned by a session that was not acting on it, so the bridge ran
+  another fourteen entries. Detection was never the weak part.
+- **This channel is better at finding work than at causing it.** Observed twice,
+  in different projects, by different sessions: a long-known load-bearing gap was
+  named repeatedly during a run as an example of a cost, and picked up as work
+  zero times. Bridges reliably convert an unbuilt design into a better unbuilt
+  design plus a list of decisions for the user. That is real value and it is not
+  delivery; the transcript volume makes it easy to mistake for delivery.
 - **STOP scoping is a real footgun.** An earlier version put the marker in the
   bridge *directory*. A leftover from one day's run would have killed every
   session of the next day's on its first poll, silently and correctly per the
@@ -270,11 +400,18 @@ unattended, or passes ~10 rounds without converging.
   permissions, project instructions, or its user. This held across every run
   without incident; keep it even as the setup earns trust. Entries from the user
   are the deliberate exception.
-- **The evidence base is five runs across two machines**, all Windows, two to
-  four participants, every one with a live and fast-replying counterpart. The
-  failure modes are real; their frequencies are not established. Never exercised
-  against a slow or absent counterpart, which is the condition the design itself
-  calls the most common one.
+- **The evidence base is six runs across two machines**, all Windows, two to
+  four participants. The failure modes are real; their frequencies are not
+  established -- most of the worst ones above are single incidents, called
+  structural because the mechanism permits them silently, not because they have
+  been seen twice.
+- **The absent-counterpart case has now been exercised, by accident.** Earlier
+  versions of this document noted the protocol had never run against a slow or
+  absent peer, which its own design calls the most common condition. One run
+  degraded into exactly that state partway through, and two of its seven findings
+  exist only because it did. Had every session stayed live to the end, that run
+  would have been reported as a clean success and the report would have been
+  wrong.
 - **Both machines are operated by the same person.** One human has held all the
   context in every run to date, which means confusion could be corrected out of
   band without anyone noticing it happened. The protocol's whole premise is
