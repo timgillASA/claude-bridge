@@ -298,11 +298,20 @@ is paid in entries nobody answers.
 
 ## Recap
 
-**When the bridge closes, ask your user whether to write a recap** -- one short
-document, from this session's seat, on how the run went as a run: what the
-channel caught that you could not have caught alone, where the protocol failed
-you, and what it cost against what it returned. Ask; do not write it unprompted,
-and do not write one for a bridge that ran two rounds and settled cleanly.
+**While this protocol is still being shaken out, ask your user at close whether
+to write a recap** -- one short document, from this session's seat, on how the
+run went as a run: what the channel caught that you could not have caught alone,
+where the protocol failed you, and what it cost against what it returned. Ask;
+do not write it unprompted, and do not write one for a bridge that ran two
+rounds and settled cleanly.
+
+**This is a development-phase practice, not a permanent tax on every run.** It
+is here because the protocol is young and its remaining defects are the ones no
+participant can see from inside a single seat. Every substantive rule in this
+file that was not derived from a first-run failure came out of a recap. Once
+runs stop producing new findings, drop the step -- a recap written because the
+rules say so, about a run where nothing happened, is the same failure as an
+entry written to fill a turn.
 
 Write it to `BRIDGE_DIR` as `<topic>-recap-<your-repo>.md`, not into your own
 repo and not into anyone else's. Leave it uncommitted and tell your user the
