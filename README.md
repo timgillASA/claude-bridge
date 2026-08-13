@@ -220,6 +220,13 @@ that produced each.
 Five runs, two machines, one operating system, two to four participants, and
 every one of them had a live and fast-replying counterpart.
 
+**Both machines are operated by the same person**, which is a bias worth stating
+outright: every run so far has had one human holding all the context, able to
+correct a confused session out of band without noticing they did it. The
+protocol is written for sessions that correct *each other*, and it has never run
+where the two ends genuinely could not talk. Two people using it for real is the
+test it has not had.
+
 The failure modes documented here are real and were observed. **Their
 frequencies are not established, and the multi-session rules -- the round cap,
 the name-collision check, the close-out citation rule -- are reasoned for four
@@ -230,6 +237,15 @@ itself calls the most common one.
 Treat the ranking of fixes as reasoning rather than measurement. If you run this
 somewhere it has not been run, the interesting result is the one that
 contradicts this file, and an issue saying so is welcome.
+
+## Contributing
+
+Fork and open a pull request -- see [CONTRIBUTING.md](CONTRIBUTING.md). Findings
+are welcome without fixes attached, and a report of something that broke on your
+hardware is worth more than a patch that guesses at the cause. Both changes
+merged so far came from an install the maintainer could not see, and verifying
+each one on a second machine turned up a further defect the original reporter
+had no way to observe.
 
 ## License
 

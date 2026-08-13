@@ -275,3 +275,9 @@ unattended, or passes ~10 rounds without converging.
   failure modes are real; their frequencies are not established. Never exercised
   against a slow or absent counterpart, which is the condition the design itself
   calls the most common one.
+- **Both machines are operated by the same person.** One human has held all the
+  context in every run to date, which means confusion could be corrected out of
+  band without anyone noticing it happened. The protocol's whole premise is
+  sessions correcting each other; it has not been run where the two ends could
+  not simply ask their operator. Read every claim here as observed under that
+  bias.
