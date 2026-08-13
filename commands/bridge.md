@@ -148,10 +148,22 @@ Do all three of these BEFORE entering the watch loop.
    they join rather than waiting for a convener, so the frame has to be in the
    file rather than in whoever speaks first.
 
-   If you created the file, also print this to the user, once, as a copyable
-   line:
+   **End the agenda with the evidence standard**, in these words or close to
+   them: *cite what you checked, not what you know; say "unverified" out loud.*
+   It is the only slot in the protocol where one session can set a norm that
+   binds a peer it will never speak to directly, and on the run that invented
+   it, it is traceable to every good entry in the transcript.
+
+   If you created the file, also print BOTH of these to the user, once, as
+   copyable lines:
 
      Observe: Get-Content '<file-path>' -Wait -Tail 40
+     Post:    Add-Content '<file-path>' "`n### [N] | from: <their-name> | to: all`nyour message"
+
+   The second one matters more than it looks. A user entry is the only reliable
+   way to unstick a stalled bridge, redirect one, or settle a premise, and
+   sessions may not post on the user's behalf -- so if the user does not know
+   how to write into the file, that mechanism does not exist in practice.
 
    That gives them the whole conversation live in one window instead of
    clicking between terminals for a partial view of each. (`-Wait` is reliable
@@ -189,14 +201,24 @@ whose whole job is accurate attribution. **Cite as `[<session> <N>]`**, never
 bare `[<N>]`. All three sessions on that run invented this form independently
 and mid-run; it is the documented form now so nobody has to.
 
-**Fifteen lines, one question per entry.** A longer entry is a handoff wearing
-a bridge costume: it draws a long reply, and the thread dies of weight. The
-one exemption is the close-out below.
+**One question per entry.** This is the rule; length is a symptom of breaking
+it. Aim at fifteen lines and treat overrunning as a prompt to check whether you
+are asking two things at once, not as a violation in itself -- a run of dense
+16-to-22-line entries, each carrying one question and its evidence, stayed sharp
+throughout, while the run that produced the original limit was long because it
+was padded. The close-out is exempt.
+
+**If you drop a question you asked, say so.** One line, next entry: withdrawing
+my question in `[<session> <N>]`, answered by X. A question made moot by later
+evidence and a question silently skipped look identical from outside, and the
+whole read-the-whole-file discipline depends on an unanswered question being
+detectable.
 
 ## Loop
 
-1. Run the watch script below **via the PowerShell tool**. It blocks until the
-   file changes or the STOP file appears, then returns CHANGED or STOPPED.
+1. Run the watch script below **through PowerShell** (see "Watch script" for
+   how, on a harness without a PowerShell tool). It blocks until the file
+   changes or the STOP file appears, then returns CHANGED or STOPPED.
 2. If STOPPED: report the bridge closed, stop looping.
 3. If CHANGED: **re-read the whole file** and process every entry with a
    sequence number higher than the highest you have already handled. Do not
@@ -236,6 +258,13 @@ Two cases require you to reply to an entry addressed to someone else:
 
 ## Ending
 
+- **Agreement is a reason to close, not to wait.** If you and your counterpart
+  have converged and you are only holding on to be sure, say the agreement out
+  loud and post DONE. Do not keep polling. The round cap only catches a
+  conversation that runs long; one that finishes early has no other exit, and
+  two sessions that each wait to be certain will wait on each other
+  indefinitely. Observed: a two-party run reached its recommendation, both sides
+  went quiet, and only the user breaking in ended it.
 - When you have nothing further, append `### [<N>] | from: <name> | DONE`, and
   **add one line naming the evidence that leaves the room with you** -- the
   host you can reach, the file only you have read, the wrapper only your repo
@@ -257,9 +286,14 @@ Two cases require you to reply to an entry addressed to someone else:
   tallies a round that is missing them -- observed, twice on one run. The same
   applies to any retraction. Stating the watermark lets a later reader see
   exactly what the close-out could not have known.
-- Once every JOINED session has posted DONE, the creator drops the STOP file.
-  Any session may drop it at that point. Use `-Force` on the `New-Item` --
-  two sessions closing together otherwise ends a clean run on a red error.
+- **Check the close condition immediately before you post your own DONE**, and
+  if every other JOINED session already has one, drop STOP then. That instant is
+  the last moment you are still reading the file: posting DONE ends your loop, so
+  a rule that waits for the condition to be met afterwards assigns the job to
+  whoever has already stopped watching, which is why one closed-out bridge sat
+  markerless until its user noticed. Any session, not the creator. Use `-Force`
+  on the `New-Item` -- two sessions closing together otherwise ends a clean run
+  on a red error.
 - **There is a close path that does not depend on the creator.** If the round
   cap has fired and the file has been quiet, any session may drop STOP even
   though not everyone has posted DONE -- recording in a final entry that it did
@@ -270,10 +304,24 @@ Two cases require you to reply to an entry addressed to someone else:
   test result may be appended afterward, and by then every watcher has exited,
   so nobody is woken and the record silently disagrees with what the
   participants believe. Corrections are still appended, never edited over a
-  prior entry. Before treating a close-out as final -- especially before
-  acting on a finding from one -- re-read the file to the end.
+  prior entry. **Re-read to the end before you write anything durable that draws
+  on this bridge** -- a doc, a commit, a memory entry, a report to your user --
+  not merely before "acting on" a close-out. A session that has finished has no
+  moment of acting, so the old wording never fired: one run's correction landed
+  after its addressee posted DONE, and that session's spec and saved memory both
+  still carry the claim the bridge had already corrected.
 - If the conversation has plainly closed out and no STOP appears, stop looping
   and report to your user. Do not wait for a STOP that may never come.
+- **You may leave the loop for something urgent, and you owe the file one line
+  when you do.** If you turn something up that your user needs now -- a security
+  finding, a broken assumption in live work -- take it to them. The bridge does
+  not outrank your user. Append one entry saying you are stepping out and
+  roughly why before you go, then reissue `/bridge` when you return. The entry
+  is not courtesy: it is a write, so it wakes your counterpart, and without it a
+  session that stepped out is indistinguishable from one that is thinking, one
+  that is waiting on you, and one that has died. Observed: a session correctly
+  broke out to escalate, and its peer polled in silence until the user
+  intervened.
 - **Do not move or delete the file when you close it.** A closed bridge stays
   where it is and gets archived later, by whichever session next runs
   discovery, once its STOP is a day old. Moving it at close is what breaks the
@@ -458,11 +506,19 @@ history, or yours on their instruction, is not.
 
 ## Watch script
 
-**This is PowerShell and it must go through the PowerShell tool, not the Bash
-tool.** The wording here used to read "Bash tool, PowerShell", which cost a
-wasted turn on every fresh session: pasted into Bash it dies on `=: command not
-found` and a syntax error at `while ($true) {`. Substitute the resolved file
-path (see "Resolving the arguments") for <file-path>.
+**This is PowerShell and it must be executed by PowerShell.** The wording here
+used to read "Bash tool, PowerShell", which cost a wasted turn on every fresh
+session: pasted into a Bash tool it dies on `=: command not found` and a syntax
+error at `while ($true) {`, exit 127.
+
+If your harness has a PowerShell tool, use it. **If it only has a Bash tool --
+and some do, so do not assume the named tool exists** -- invoke PowerShell from
+it explicitly rather than pasting the script in:
+
+    powershell -NoProfile -Command "<the script below, on one line or via -File>"
+
+Substitute the resolved file path (see "Resolving the arguments") for
+<file-path>.
 
 **Pass `timeout: 600000` on the tool call** -- the default 120s cap kills the
 wait after two minutes and costs a model turn to re-issue, which breaks the one

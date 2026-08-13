@@ -361,6 +361,117 @@ of the round cap, and both were true.
 One naming lesson, learned the dull way: three recaps of one run, each named for
 the topic and none for its author, are indistinguishable a day later.
 
+## A converged bridge has no exit
+
+Separately and on another machine, a two-party run reached a clean answer and
+then could not stop.
+
+The two sessions held genuinely opposite halves of one infrastructure question.
+They corrected each other five times in both directions -- one killed an entire
+option with a command's output rather than recall, the other reframed the
+question, and the second later abandoned its own preferred design **on the
+first one's evidence rather than its own**. That is the channel doing precisely
+what it exists for.
+
+Then they agreed, and stopped. Substantive entries divided by live participants
+came to 4.5 rounds, so **the cap never fired**, because the cap only catches a
+conversation that runs long. A conversation that finishes early has no trigger
+at all. Both sessions sat polling, each waiting to be sure the other was
+finished, until the user broke in and asked what was happening. Neither did
+anything wrong; the protocol simply had no way to end a success.
+
+Hence the rule that agreement is a reason to close rather than to wait. Note
+what it is not: it is not a timeout, and not a second cap. The instruction is to
+notice that you are only waiting to be certain, and to say so instead.
+
+## The correction that arrived after everyone had finished
+
+The same run produced the sharpest case yet for re-reading, and showed the rule
+was aimed at the wrong instant.
+
+One session posted DONE. The other then appended a correction: an item the
+close-out had recorded as unverified had in fact been settled by the user in
+conversation, and a user's direct statement outranks a tool's 403. Correctly
+reasoned, correctly appended rather than edited over, and cited.
+
+Nobody read it. The addressee had posted DONE and its loop had ended. Hours
+later its written specification and its saved session memory both still carried
+the uncorrected claim, in a document another person would reasonably build on.
+
+The old wording said to re-read "before treating a close-out as final, and
+especially before acting on a finding from one". A session that has finished has
+no moment of acting -- it has a moment of *writing down*, and that is not the
+same thing. The rule now attaches to producing any durable record that draws on
+the bridge. **A protocol whose corrections do not reach the artifacts is a
+protocol that produces confident, well-cited, out-of-date documents.**
+
+## The job assigned to whoever has already left
+
+Two independent findings, from different machines and different failure paths,
+turned out to be the same shape.
+
+On a three-party run the round cap was flagged correctly and handed to the
+creator as the rules then required, and the bridge ran another fourteen entries
+because the creator was not paying attention. On a two-party run the STOP marker
+was never dropped, because the rule said to drop it once every session had
+posted DONE -- and the only participant who could observe that condition had
+ended its own loop by posting DONE.
+
+Both are the same error: **assigning a duty to a role, when the duty can only be
+discharged in a window that role is usually not present for.** The fixes are the
+same shape too. Whoever notices the cap acts on it. Whoever is about to post
+DONE checks the close condition first, because that is the last instant they are
+still reading.
+
+Worth stating plainly, since it is the sort of thing a maintainer talks himself
+out of: neither fix makes the protocol cleverer. Both move a responsibility to
+whoever happens to be looking.
+
+## Leaving the loop is legitimate
+
+On the two-party run, one session found a security problem in the course of its
+research, left the watch loop without being asked, and escalated to its user. It
+had judged correctly that the finding outranked the conversation, with nothing
+in the protocol telling it that was allowed.
+
+The protocol had no opinion, which is the defect. Its counterpart went on
+polling into silence, because a session that stepped out, a session composing a
+long reply, and a session that has died are indistinguishable from outside -- see
+the liveness section above. The good judgement produced the bad state.
+
+Leaving is now sanctioned, with one obligation: append a line saying you are
+going before you go. The line is not manners. It is a write, and a write is the
+only thing that wakes anyone.
+
+## Two rules the evidence went against
+
+**The user-entry mechanism was unreachable.** On that run the user intervened
+four times -- an escalation, a stall, an extension of the conversation, and a
+statement of fact that settled an open question -- and the file records none of
+them. Every one happened in a terminal. The protocol described user entries in
+detail while never telling the user how to write one, and the one fact that did
+reach the file got there only because a session chose to relay it. That relay
+path has since been closed off for good reasons (see the identity hole), which
+makes telling the user how to post directly a precondition rather than a
+convenience.
+
+**The fifteen-line limit did not survive contact.** Six entries broke it, by
+both participants, and the conversation stayed sharp throughout -- dense entries
+carrying one question and the evidence for it. The original rule came from
+comparing two runs in which the long entries were *padded*, and length was
+standing in for the thing that actually mattered. One question per entry is the
+rule; length is a symptom worth noticing, not a limit worth enforcing. Both
+sides followed one-question-per-entry almost perfectly, and the single lapse was
+an entry asking two things at once, which is the failure the limit was proxying
+for all along.
+
+**And one ambiguity worth closing.** A direct question in that run was never
+answered by its addressee -- the asker made it moot in its own next entry by
+answering it from evidence already on the table. Benign, but from outside the
+transcript a moot question and a skipped one are identical, which defeats the
+audit the read-the-whole-file rule exists to support. Withdraw a question out
+loud when you drop it.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
