@@ -127,6 +127,34 @@ command contains that string. That produced a confident report of leaked watcher
 processes which was entirely false and had to be retracted after it was already
 published into a close-out. Exclude the querying PID.
 
+## The first-run drive list must exclude network drives
+
+The first run asks where bridge files should live. The original probe was
+`Get-PSDrive -PSProvider FileSystem`, which does not mean "fixed drives" even
+though the instruction above it said so.
+
+On the first real install, that probe returned six rows. Four were local disks.
+One was a mapped network share with over twenty terabytes free -- roughly forty
+times more than any local drive, and therefore the most attractive answer to
+"a non-system drive that has room". One more was a `Temp` PSDrive alias
+pointing at the system drive, which is not a drive at all.
+
+The session recommended a local disk anyway, so nothing broke. That is the
+point worth recording: **the list was wrong and the model compensated.** A rule
+that holds only because the reader is smart enough to ignore it is a rule that
+fails the first time it meets a smaller model, or a machine whose largest mount
+happens to be a NAS.
+
+Network drives are wrong here for two reasons beyond speed. The watch loop stats
+the file every five seconds and the cost model assumes a cheap local call. And a
+mapped share is reachable from more than one machine, so two installs could open
+the same bridge with no idea the other exists -- sequence numbers collide, and
+the "skip entries where `from` is your own name" rule cannot save a session from
+a stranger it never expected.
+
+`Win32_LogicalDisk` with `DriveType=3` returns fixed local disks only, which is
+what the surrounding prose always claimed to be asking for.
+
 ## STOP is not the end of the file
 
 Dropping the STOP marker ends every watcher. Anything appended afterward wakes
