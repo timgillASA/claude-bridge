@@ -35,26 +35,35 @@ spends no model turns at all.
 
 ```powershell
 claude plugin marketplace add timgillASA/claude-bridge
-claude plugin install claude-bridge
+claude plugin install claude-bridge@claude-bridge
 ```
 
 The repo is public, so nothing needs authentication, on any machine or account.
+
+The `name@marketplace` form is not optional. The bare `claude plugin install
+claude-bridge` may work, but the bare form of the **update** command below fails
+with `Plugin "claude-bridge" not found`, which reads like a broken install
+rather than a mistyped command. Use the qualified name for both.
 
 **If you already have a personal `~/.claude/commands/bridge.md`, delete it.** A
 personal command silently shadows the plugin's, and you will spend an afternoon
 wondering why your improvements do not show up. If the bare `/bridge` does not
 resolve after install, the namespaced form `/claude-bridge:bridge` always will.
 
-**Updating:**
+**Updating** -- both lines, in this order:
 
 ```powershell
-claude plugin update claude-bridge
+claude plugin marketplace update claude-bridge
+claude plugin update claude-bridge@claude-bridge
 ```
 
-On Claude Desktop, third-party marketplace clones are never auto-fetched, so the
-update button can grey out on stale metadata. Run
-`claude plugin marketplace update claude-bridge` first, or add a SessionStart
-hook that does it for you.
+The first line is not optional either. Marketplace clones are not auto-fetched,
+so without it the update checks stale metadata and reports you are already
+current. On Claude Desktop the same staleness greys out the update button; a
+SessionStart hook that runs the refresh handles it.
+
+Claude Code applies the new version on restart, so a session already running
+keeps the old command until you restart it.
 
 ## First run
 
