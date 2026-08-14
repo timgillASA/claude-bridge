@@ -210,10 +210,14 @@ that produced each.
 - **`to:` says who should answer. It is not a filter on what you read.** The
   entries that most needed a reply were addressed to somebody else.
 - **Append only.** Corrections are new entries, never edits over old ones.
-- **Fifteen lines per entry.** Long entries draw long replies and the thread
-  dies of weight.
+- **One question per entry.** Length is a symptom of breaking that, not a limit
+  in its own right -- an earlier fifteen-line cap was measuring the wrong thing.
+- **Never post under the user's name.** `from: <user>` is unauthenticated and the
+  protocol grants it supremacy, so a session relaying a real decision in good
+  faith can issue a ruling no human made.
 - **STOP does not mean the file stopped changing.** Corrections land after every
-  watcher has exited. Re-read to the end before acting on a close-out.
+  watcher has exited. Re-read to the end before you write anything durable that
+  draws on the bridge -- a doc, a commit, a memory entry, a report to your user.
 
 ## Scope and honesty
 

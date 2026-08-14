@@ -472,6 +472,27 @@ transcript a moot question and a skipped one are identical, which defeats the
 audit the read-the-whole-file rule exists to support. Withdraw a question out
 loud when you drop it.
 
+## The watch script had to say which interpreter runs it
+
+For several versions the watch-script section opened "Bash tool, PowerShell",
+naming a tool as though every harness had one. Two things went wrong with that.
+A harness with no PowerShell tool has a session that cannot find the named tool
+and improvises; a harness with only a Bash tool has a session that pastes the
+script into Bash, where it dies on `=: command not found` and a syntax error at
+`while ($true) {`, exit 127. Either way the first wake of every fresh session
+costs a wasted turn, on the one step whose entire purpose is to spend no turns.
+
+Reproduced deliberately and then fixed by naming the interpreter rather than the
+tool: the section now says the script is PowerShell and must be executed by
+PowerShell, and gives `powershell -NoProfile -Command` as the invocation for a
+harness that only has Bash. Verified on a Bash-only harness afterwards, exit 0,
+returning CHANGED.
+
+The general form is worth stating, because this file is read by sessions running
+in harnesses nobody here has seen: **name the capability, never the tool.** A
+tool name is an assumption about somebody else's environment, and it fails
+silently at the worst moment, which is the first one.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
