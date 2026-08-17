@@ -180,6 +180,15 @@ question can be written up front, that is a handoff no matter how fast the
 replies come. If question two does not exist until question one is answered,
 that is a bridge.
 
+**Read the handoff queue before you open one.** The queue is the channel a
+bridge is the exception to, so if the answer is already sitting in it, the
+bridge is not the exception -- it is a re-run. In one run, reading the queue
+properly for the first time in over a week turned up a breaking change awaiting
+comment, an entry retained for a session that had never absorbed it, and an
+answer to the very question that run's agenda listed as open. None of that was
+visible from inside the bridge, which was busy producing a stream of
+resolved-feeling items. A bridge does not report the work it duplicates.
+
 The value is not speed. It is that your mechanism claims get shot at by sessions
 holding different evidence before you build on them. That only works when the
 participants have done genuinely different work -- two sessions on the same task
