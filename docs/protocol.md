@@ -636,6 +636,31 @@ from the file by a later reader. Both existing additions pass it, which is the
 point -- it states a boundary the content already respects rather than
 retrofitting a constraint onto it.
 
+A third refinement, from the same review, and the one worth naming as a shape
+rather than as a bug. The trigger is observable, but it is not stable in time. A
+session that posts DONE while the file names one repo writes no carry line and is
+right not to; if a second repo is first named later, that DONE is retroactively
+non-compliant with a rule it satisfied when written, and its author may never
+read the file again. The close-out then sees a DONE with no carry line and cannot
+tell it from a seat that genuinely had nothing to carry -- the same asymmetry
+`carrying: nothing` had just closed, re-entering through time instead of through
+omission.
+
+The fix sits on the close-out rather than on DONE. The close-out already reads
+the whole file, and the alternative -- re-JOIN, which the protocol permits --
+would make a session's exit conditional on entries not yet written. A DONE
+predating the first mention of a second repo therefore has no carry status: an
+open item, not a nothing, cited by both entry numbers. It fails in the safe
+direction, since the worst case is a close-out naming an open item that turns out
+to be empty.
+
+Three findings of one shape in a single review is the useful part, more than any
+of the three fixes. Each was a check that could not distinguish two cases with
+opposite consequences, and each looked correct in isolation. That is worth
+carrying forward as a question to ask of any new rule here -- what two situations
+does this check collapse, and do they differ in consequence? -- rather than as
+three separate lessons.
+
 Rejected while writing this: an owner-and-status table in the close-out. It would
 make the close-out authoritative about other sessions' commitments, which is what
 the citation rule exists to prevent, and a schema invites being filled in rather

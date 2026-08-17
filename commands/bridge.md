@@ -297,7 +297,12 @@ Two cases require you to reply to an entry addressed to someone else:
   empty one are identical to whoever assembles the order, and those two cases
   have opposite consequences. The trigger is what the file says rather than how
   you judge the scope: a condition each seat evaluates privately is one two seats
-  will evaluate differently. A bridge naming one repo owes none of this.
+  will evaluate differently. A bridge naming one repo owes none of this. **The
+  trigger over-fires on purpose** -- a bridge that merely mentions a second repo
+  costs every seat one line saying nothing. Keep that asymmetry when it is
+  challenged as noise: a false trigger costs a line, a missed one costs the thing
+  this rule exists to prevent, and "it fired when it did not need to" is the
+  argument that turns an observable condition back into a private judgement.
   **Order, not dates.** "B is inert until A lands" is a property of the work and
   both ends can check it; "I will ship Thursday" is a promise about a person
   nobody asked, made by a session that will not exist by Thursday. A date belongs
@@ -328,6 +333,13 @@ Two cases require you to reply to an entry addressed to someone else:
   rule as citing attributed positions, for the same reason. If two DONE entries
   disagree about which side goes first, that is an open item to report, not a
   discrepancy to smooth over.
+- **A DONE written before the second repo was first named has no carry status.**
+  It is an open item, not a `nothing` -- cite both entry numbers, the DONE and
+  the entry where the second repo first appears. The trigger is observable but it
+  is not stable in time: the file keeps changing after a session stops
+  contributing, so a DONE can satisfy the rule when written and not afterwards,
+  and its author may never read the file again. Report it rather than resolving
+  it by assumption, exactly as with two DONE entries that disagree.
 - **Write the close-out from a read taken at the moment you write it, and state
   the entry number it is current as of** ("current as of [23]"). A close-out
   composed from an earlier read crosses with entries still in flight and then
