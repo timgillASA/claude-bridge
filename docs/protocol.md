@@ -617,6 +617,16 @@ verification mechanism, and it should not be cited as one -- the whole-file
 re-read is still the thing that prevents the miss, and this is a net that
 happened to be under it once.
 
+**The divisor needs the same treatment (reasoned, not observed).** As first
+written, the rule enumerated the dividend and left the divisor a bare number.
+Counted entries exclude JOINED and DONE by definition, so a missed entry of
+either kind can never show up in an ID list -- and those are precisely the
+entries that change the participant count. Two seats would diff identical lists,
+agree, and both divide by the wrong number. The fix is to name the live
+participants rather than count them, which costs nothing because they are names
+and there are only ever a handful. No run has hit this; it was found by asking
+what the ID list cannot show.
+
 ## Carrying work out of the bridge (reasoned, not observed)
 
 Every other rule in this file was paid for by a run that went wrong. This one was

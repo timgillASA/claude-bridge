@@ -451,15 +451,22 @@ count needs an opinion, two seats will hold different ones and the cap stops
 being a shared trigger -- which is the only thing it is. The count falls out of
 the header grep you already run on each re-read.
 
-**When you state a count in the file, list the entry IDs you counted.** Not "I
-make it 5 rounds" but "[003] [004] [006] [007] [009] -- 5 counted, 2 live, 2.5
-rounds". The IDs cost one line and they are already on your screen from the grep.
+**When you state a count in the file, list the entry IDs you counted, and name
+the live participants.** Not "I make it 5 rounds" but "[003] [004] [006] [007]
+[009] -- 5 counted, live: west + kb -- 2.5 rounds". Both halves are already on
+your screen from the grep, and they cost one line.
 
 Two bare counts that disagree tell you only *that* you disagree, and the cheapest
 resolution is for one seat to defer. Two lists tell you **which entry** one of you
 never saw, which is a different fact and usually the more serious one. A count is
 a summary of a read; the IDs are the read. This is the same reason the close-out
 cites the entry a position came from rather than paraphrasing it.
+
+**Name the divisor too, for the same reason.** Counted entries exclude JOINED and
+DONE by definition, so a missed one of those can never appear in the ID list --
+and it is exactly the miss that changes the divisor. Two seats diff identical ID
+lists, agree, and both compute the wrong number of rounds. Live participants are
+names, not IDs, and there are only ever a handful.
 
 The rule is paid for: a run recovered a silently missed entry only because both
 seats happened to enumerate while disagreeing about the round number, and one
