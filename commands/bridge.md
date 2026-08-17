@@ -289,6 +289,21 @@ Two cases require you to reply to an entry addressed to someone else:
   knows about. DONE removes a participant's ground truth, not just its voice,
   and the sessions that remain will otherwise design around assumptions about
   the exact thing that just left.
+- **If the agreement implies work in more than one repo, your DONE also names
+  what you are carrying**: the change you are taking back, what it waits on (by
+  session name and entry number), and what breaks if the order inverts. Self-
+  attributed, so that no session commits another. Skip it whenever everything
+  lands in one place -- most runs settle a mechanism and owe nothing here.
+  **Order, not dates.** "B is inert until A lands" is a property of the work and
+  both ends can check it; "I will ship Thursday" is a promise about a person
+  nobody asked, made by a session that will not exist by Thursday. A date belongs
+  here only as an external fact anyone can verify -- a freeze, a meeting, a
+  vendor cutoff.
+- **A commitment recorded only in the bridge expires in a day.** Closed bridges
+  are archived into `history\` and nothing reads them again. Before you exit, put
+  whatever you agreed to carry somewhere in your own repo that outlives this file
+  -- a handoff note, the spec it changes, a task. The file is the record of the
+  conversation, not the record of the work.
 - **DONE is not terminal.** A session may re-JOIN when a new question lands in
   its territory, and that is correct behavior, not a workaround. It does mean
   "every JOINED session has DONE" is a snapshot rather than a latch, so do not
@@ -297,6 +312,10 @@ Two cases require you to reply to an entry addressed to someone else:
   settled, and what was raised and deliberately left untouched. Silence reads
   as consensus otherwise. Mark it `no reply needed` -- it is for whoever reads
   the file later, and it is exempt from the length guidance.
+- **Assemble the running order from the DONE entries; do not invent it.** Same
+  rule as citing attributed positions, for the same reason. If two DONE entries
+  disagree about which side goes first, that is an open item to report, not a
+  discrepancy to smooth over.
 - **Write the close-out from a read taken at the moment you write it, and state
   the entry number it is current as of** ("current as of [23]"). A close-out
   composed from an earlier read crosses with entries still in flight and then

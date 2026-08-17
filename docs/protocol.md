@@ -578,6 +578,49 @@ question". It sounds tighter and is worse -- it replaces one contested word with
 three, since a correction, a retraction and an acknowledgement each need a
 ruling before the count can proceed.
 
+## Carrying work out of the bridge (reasoned, not observed)
+
+Every other rule in this file was paid for by a run that went wrong. This one was
+not. It is marked so a later reader can weigh it accordingly, and so nobody cites
+it as evidence it is not.
+
+The close-out records conclusions; the DONE line records what evidence leaves the
+room. Nothing recorded what **work** leaves the room, who holds it, or what it
+waits on. So a run could end with an accurate close-out and no trace of the fact
+that one repo's change does nothing until another repo's lands first -- and a
+cross-repo dependency is exactly the kind of fact no single session can see,
+because it exists only in the join. That makes it among the most valuable things
+a run can produce, and the protocol had nowhere to put it.
+
+Two observations argue for the rule without quite being incidents.
+
+The first is already in this file: a finding that had sat fifteen days unmerged
+was named twice in one run as an example, and never once picked up as work.
+Agreement was reached and nobody left holding it.
+
+The second is about how the protocol has been getting away with the gap. On one
+run, a correction settled in a bridge did reach the repo that needed it, the same
+day. The protocol contributed nothing to that -- the operator noticed and routed
+it by hand. Every run so far has had one human holding both ends, which the
+README already names as the untested condition, and a propagation step that works
+only under that condition is the first thing to break when it stops holding.
+
+The rule is deliberately about **order rather than dates**. A session cannot
+commit its user's calendar: a date it offers is a promise about a person who was
+never asked, made by something that will not exist when the date arrives. It is
+also unverifiable from inside the file, which is the same objection this protocol
+already raises against claiming delivery or readership. Ordering is different in
+kind -- "B is inert until A lands" is a property of the work, checkable from both
+ends, and it outlives whoever noticed it. Dates are admitted only as external
+facts, a freeze or a meeting or a vendor cutoff, because those are observations
+about the world rather than commitments by a participant.
+
+Rejected while writing this: an owner-and-status table in the close-out. It would
+make the close-out authoritative about other sessions' commitments, which is what
+the citation rule exists to prevent, and a schema invites being filled in rather
+than meant. The commitment is self-attributed at DONE for the same reason a
+position is cited rather than summarised.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
