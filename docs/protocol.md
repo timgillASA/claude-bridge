@@ -578,6 +578,39 @@ question". It sounds tighter and is worse -- it replaces one contested word with
 three, since a correction, a retraction and an acknowledgement each need a
 ruling before the count can proceed.
 
+## An agenda item that could not be settled, and should not have been
+
+One run's headline item was who owned a piece of infrastructure. It was not
+answerable inside the file: it turned on the operator's preference, and no
+session held that. Both seats knew it from the header.
+
+Carrying it was still right. What left the room was a documented recommendation
+with the reasoning and each seat's position attached, and the user's answer
+afterwards was four words. A settlement was never available; the preparation was,
+and it was worth the run.
+
+**But that is a different product, and the agenda did not say which one it
+wanted.** An earlier run, on the same ambiguity, ended with a session closing an
+item on the user's behalf -- which is the same failure the impersonation
+prohibition addresses, arriving from the other end. The prohibition catches the
+act of speaking as the user. Marking the item removes the reason to: a session
+that knows at open that an item is `prepare-for-user` has no closure to reach
+for, because closure was never the goal.
+
+The cost is one word per agenda line, written by whoever creates the file, before
+anyone joins.
+
+The close-out rule is the half that makes it real. Reporting a
+`prepare-for-user` item as *unresolved* is the same error as closing it -- both
+describe it as a settlement that did not happen, and a session summarising toward
+settlement is exactly how the user's decision gets made for them. It reports the
+recommendation and where the seats differ, and it does not report a verdict.
+
+Rejected: inferring the kind from the wording of the item. It is the same defect
+the carry trigger was fixed for one version earlier -- a condition each seat
+evaluates privately is one two seats will evaluate differently, and this one
+would be evaluated silently by whoever wrote the close-out.
+
 ## Carrying work out of the bridge (reasoned, not observed)
 
 Every other rule in this file was paid for by a run that went wrong. This one was

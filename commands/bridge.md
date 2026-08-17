@@ -152,6 +152,27 @@ Do all three of these BEFORE entering the watch loop.
    they join rather than waiting for a convener, so the frame has to be in the
    file rather than in whoever speaks first.
 
+   **Mark each agenda item `settle` or `prepare-for-user`.** They are different
+   products and mixing them silently is how a session ends up closing, on the
+   user's behalf, a question only the user could answer.
+
+   - `settle` -- the participants can reach the answer between them. Most items.
+   - `prepare-for-user` -- the answer is not theirs to give: it turns on
+     ownership, cost, priority, or a preference nobody in the file holds. The
+     product is a documented recommendation with the reasoning and each seat's
+     position attached, not a decision.
+
+   An item marked `prepare-for-user` is not a failed `settle`. A run has ended
+   with its headline item structurally unclosable, known to be so by both seats
+   from the header, and carrying it was still right -- what left the room let the
+   user answer in four words instead of a conversation. Say which one the agenda
+   wants and the close-out reports against that, rather than against settlement
+   for everything.
+
+   Add items mid-run by amendment the same way, marked. If an item turns out to
+   be the other kind, say so in an entry and mark it there -- a `settle` that
+   quietly becomes the user's call is the case this rule exists for.
+
    **End the agenda with the evidence standard**, in these words or close to
    them: *cite what you checked, not what you know; say "unverified" out loud.*
    It is the only slot in the protocol where one session can set a norm that
@@ -329,6 +350,13 @@ Two cases require you to reply to an entry addressed to someone else:
   settled, and what was raised and deliberately left untouched. Silence reads
   as consensus otherwise. Mark it `no reply needed` -- it is for whoever reads
   the file later, and it is exempt from the length guidance.
+- **Report each agenda item against the kind it was marked.** A `settle` item
+  reports what was settled or that it was not. A `prepare-for-user` item reports
+  the recommendation, the reasoning, and where the seats differ -- and **does not
+  report a verdict**, because none was ever the goal. Recording it as unresolved
+  is the same error as closing it: both describe it as a settlement that did not
+  happen, and the second is how the user's decision gets made for them by a
+  session summarising toward closure.
 - **Assemble the running order from the DONE entries; do not invent it.** Same
   rule as citing attributed positions, for the same reason. If two DONE entries
   disagree about which side goes first, that is an open item to report, not a
