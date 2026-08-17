@@ -373,7 +373,7 @@ question, and the second later abandoned its own preferred design **on the
 first one's evidence rather than its own**. That is the channel doing precisely
 what it exists for.
 
-Then they agreed, and stopped. Substantive entries divided by live participants
+Then they agreed, and stopped. Counted entries divided by live participants
 came to 4.5 rounds, so **the cap never fired**, because the cap only catches a
 conversation that runs long. A conversation that finishes early has no trigger
 at all. Both sessions sat polling, each waiting to be sure the other was
@@ -492,6 +492,41 @@ The general form is worth stating, because this file is read by sessions running
 in harnesses nobody here has seen: **name the capability, never the tool.** A
 tool name is an assumption about somebody else's environment, and it fails
 silently at the worst moment, which is the first one.
+
+## The adjective that undefined a definition
+
+Two seats on the same two-party run disagreed about how many rounds it had run:
+one said 5, the other 4. The whole gap was a single entry -- a RELAYED evidence
+drop that asked no question but moved the bridge's headline item. Neither seat
+thought it worth an entry to settle, which was the right call and also meant the
+cap's trigger was fuzzy at exactly the point it fires.
+
+The rule they were reading was already mechanical:
+
+> Substantive entries = every entry except JOINED, DONE, and close-outs.
+
+By its own text the evidence drop counts. The definition asks for a subtraction
+and nothing else. But the label said **substantive**, and a reader who takes the
+label seriously reasonably asks whether a given entry was substantive -- a
+question the definition never poses and offers no way to answer. The term was
+doing work the rule had not authorized.
+
+So the fix is not a better definition of "substantive". It is deleting the word.
+The count is now **counted entries**, the subtraction is unchanged, and the rule
+states outright that it is a subtraction rather than a judgement.
+
+The principle worth keeping: **a cap must be independently computable by every
+participant, or it is not a shared trigger.** Both seats hold the same file and
+must derive the same number from it every time. Any definition requiring an
+opinion reintroduces the 5-versus-4 split however carefully it is worded, and a
+trigger that two participants compute differently cannot coordinate them. It is
+also a cheap property to preserve here, since the count falls out of the
+whole-file header grep the re-read rule already requires.
+
+Rejected while fixing this: counting only entries that "ask or answer a
+question". It sounds tighter and is worse -- it replaces one contested word with
+three, since a correction, a retraction and an acknowledgement each need a
+ruling before the count can proceed.
 
 ## Known caveats
 
