@@ -578,6 +578,95 @@ question". It sounds tighter and is worse -- it replaces one contested word with
 three, since a correction, a retraction and an acknowledgement each need a
 ruling before the count can proceed.
 
+## Carrying work out of the bridge (reasoned, not observed)
+
+Every other rule in this file was paid for by a run that went wrong. This one was
+not. It is marked so a later reader can weigh it accordingly, and so nobody cites
+it as evidence it is not.
+
+The close-out records conclusions; the DONE line records what evidence leaves the
+room. Nothing recorded what **work** leaves the room, who holds it, or what it
+waits on. So a run could end with an accurate close-out and no trace of the fact
+that one repo's change does nothing until another repo's lands first -- and a
+cross-repo dependency is exactly the kind of fact no single session can see,
+because it exists only in the join. That makes it among the most valuable things
+a run can produce, and the protocol had nowhere to put it.
+
+Two observations argue for the rule without quite being incidents.
+
+The first is already in this file: a finding that had sat fifteen days unmerged
+was named twice in one run as an example, and never once picked up as work.
+Agreement was reached and nobody left holding it.
+
+The second is about how the protocol has been getting away with the gap. On one
+run, a correction settled in a bridge did reach the repo that needed it, the same
+day. The protocol contributed nothing to that -- the operator noticed and routed
+it by hand. Every run so far has had one human holding both ends, which the
+README already names as the untested condition, and a propagation step that works
+only under that condition is the first thing to break when it stops holding.
+
+The rule is deliberately about **order rather than dates**. A session cannot
+commit its user's calendar: a date it offers is a promise about a person who was
+never asked, made by something that will not exist when the date arrives. It is
+also unverifiable from inside the file, which is the same objection this protocol
+already raises against claiming delivery or readership. Ordering is different in
+kind -- "B is inert until A lands" is a property of the work, checkable from both
+ends, and it outlives whoever noticed it. Dates are admitted only as external
+facts, a freeze or a meeting or a vendor cutoff, because those are observations
+about the world rather than commitments by a participant.
+
+Two refinements came out of review before this merged. Both are about the shape
+of the rule rather than its substance, and both are worth recording.
+
+The carry line was originally skippable whenever the work landed in one place.
+That made an omitted line and "nothing to carry" indistinguishable to whoever
+assembles the running order -- the same asymmetry the close-out rule already
+names, where silence reads as consensus. And the condition was one each seat
+evaluated privately, so two seats could disagree about whether the line was owed
+at all, which is precisely the defect the round cap had just been fixed for. The
+trigger is now observable from the file, more than one repo named anywhere in it,
+and the nothing case is written rather than implied.
+
+The second refinement bounds DONE itself. DONE has been accreting: it marks the
+end of a contribution, inventories the evidence leaving the room, and now names
+carried work and its ordering. Each addition was justified on its own and nothing
+was watching the total, which is how a rule set becomes the very schema this
+section rejects. The bound is that DONE carries only what cannot be reconstructed
+from the file by a later reader. Both existing additions pass it, which is the
+point -- it states a boundary the content already respects rather than
+retrofitting a constraint onto it.
+
+A third refinement, from the same review, and the one worth naming as a shape
+rather than as a bug. The trigger is observable, but it is not stable in time. A
+session that posts DONE while the file names one repo writes no carry line and is
+right not to; if a second repo is first named later, that DONE is retroactively
+non-compliant with a rule it satisfied when written, and its author may never
+read the file again. The close-out then sees a DONE with no carry line and cannot
+tell it from a seat that genuinely had nothing to carry -- the same asymmetry
+`carrying: nothing` had just closed, re-entering through time instead of through
+omission.
+
+The fix sits on the close-out rather than on DONE. The close-out already reads
+the whole file, and the alternative -- re-JOIN, which the protocol permits --
+would make a session's exit conditional on entries not yet written. A DONE
+predating the first mention of a second repo therefore has no carry status: an
+open item, not a nothing, cited by both entry numbers. It fails in the safe
+direction, since the worst case is a close-out naming an open item that turns out
+to be empty.
+
+Three findings of one shape in a single review is the useful part, more than any
+of the three fixes. Each was a check that could not distinguish two cases with
+opposite consequences, and each looked correct in isolation. That is worth
+carrying forward as a question to ask of any new rule here -- what two situations
+does this check collapse, and do they differ in consequence? -- rather than as
+three separate lessons.
+
+Rejected while writing this: an owner-and-status table in the close-out. It would
+make the close-out authoritative about other sessions' commitments, which is what
+the citation rule exists to prevent, and a schema invites being filled in rather
+than meant. The commitment is self-attributed at DONE for the same reason a
+position is cited rather than summarised.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.

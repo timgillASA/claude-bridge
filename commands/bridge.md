@@ -289,6 +289,38 @@ Two cases require you to reply to an entry addressed to someone else:
   knows about. DONE removes a participant's ground truth, not just its voice,
   and the sessions that remain will otherwise design around assumptions about
   the exact thing that just left.
+- **If more than one repo is named anywhere in this bridge, your DONE also names
+  what you are carrying**: the change you are taking back, what it waits on (by
+  session name and entry number), and what breaks if the order inverts. Self-
+  attributed, so that no session commits another. **Carrying nothing is a thing
+  you write, not a line you omit** -- `carrying: nothing`. An omitted line and an
+  empty one are identical to whoever assembles the order, and those two cases
+  have opposite consequences. The trigger is what the file says rather than how
+  you judge the scope: a condition each seat evaluates privately is one two seats
+  will evaluate differently. A bridge naming one repo owes none of this. **The
+  trigger over-fires on purpose** -- a bridge that merely mentions a second repo
+  costs every seat one line saying nothing. Keep that asymmetry when it is
+  challenged as noise: a false trigger costs a line, a missed one costs the thing
+  this rule exists to prevent, and "it fired when it did not need to" is the
+  argument that turns an observable condition back into a private judgement.
+  **Order, not dates.** "B is inert until A lands" is a property of the work and
+  both ends can check it; "I will ship Thursday" is a promise about a person
+  nobody asked, made by a session that will not exist by Thursday. A date belongs
+  here only as an external fact anyone can verify -- a freeze, a meeting, a
+  vendor cutoff.
+- **A commitment recorded only in the bridge expires in a day.** Closed bridges
+  are archived into `history\` and nothing reads them again. Before you exit, put
+  whatever you agreed to carry somewhere in your own repo that outlives this file
+  -- a handoff note, the spec it changes, a task. The file is the record of the
+  conversation, not the record of the work.
+- **DONE carries only what cannot be reconstructed from this file by a later
+  reader**: evidence only you held, commitments only you can make. That is the
+  whole budget. Every addition to DONE has been defensible on its own and nothing
+  has been watching the total, which is how a rule set turns into a form. The
+  failure would not look like a bad rule -- it looks like a well-formed four-part
+  DONE where two parts are furniture, which reads as compliance and is harder to
+  spot than an obviously wrong entry. A new field argues for the space rather
+  than inheriting it.
 - **DONE is not terminal.** A session may re-JOIN when a new question lands in
   its territory, and that is correct behavior, not a workaround. It does mean
   "every JOINED session has DONE" is a snapshot rather than a latch, so do not
@@ -297,6 +329,17 @@ Two cases require you to reply to an entry addressed to someone else:
   settled, and what was raised and deliberately left untouched. Silence reads
   as consensus otherwise. Mark it `no reply needed` -- it is for whoever reads
   the file later, and it is exempt from the length guidance.
+- **Assemble the running order from the DONE entries; do not invent it.** Same
+  rule as citing attributed positions, for the same reason. If two DONE entries
+  disagree about which side goes first, that is an open item to report, not a
+  discrepancy to smooth over.
+- **A DONE written before the second repo was first named has no carry status.**
+  It is an open item, not a `nothing` -- cite both entry numbers, the DONE and
+  the entry where the second repo first appears. The trigger is observable but it
+  is not stable in time: the file keeps changing after a session stops
+  contributing, so a DONE can satisfy the rule when written and not afterwards,
+  and its author may never read the file again. Report it rather than resolving
+  it by assumption, exactly as with two DONE entries that disagree.
 - **Write the close-out from a read taken at the moment you write it, and state
   the entry number it is current as of** ("current as of [23]"). A close-out
   composed from an earlier read crosses with entries still in flight and then
