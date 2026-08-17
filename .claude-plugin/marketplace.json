@@ -1,6 +1,6 @@
 {
   "name": "claude-bridge",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Session-to-session bridge for Claude Code.",
   "repository": "https://github.com/timgillASA/claude-bridge",
   "owner": {
