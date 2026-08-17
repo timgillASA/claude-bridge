@@ -615,6 +615,27 @@ ends, and it outlives whoever noticed it. Dates are admitted only as external
 facts, a freeze or a meeting or a vendor cutoff, because those are observations
 about the world rather than commitments by a participant.
 
+Two refinements came out of review before this merged. Both are about the shape
+of the rule rather than its substance, and both are worth recording.
+
+The carry line was originally skippable whenever the work landed in one place.
+That made an omitted line and "nothing to carry" indistinguishable to whoever
+assembles the running order -- the same asymmetry the close-out rule already
+names, where silence reads as consensus. And the condition was one each seat
+evaluated privately, so two seats could disagree about whether the line was owed
+at all, which is precisely the defect the round cap had just been fixed for. The
+trigger is now observable from the file, more than one repo named anywhere in it,
+and the nothing case is written rather than implied.
+
+The second refinement bounds DONE itself. DONE has been accreting: it marks the
+end of a contribution, inventories the evidence leaving the room, and now names
+carried work and its ordering. Each addition was justified on its own and nothing
+was watching the total, which is how a rule set becomes the very schema this
+section rejects. The bound is that DONE carries only what cannot be reconstructed
+from the file by a later reader. Both existing additions pass it, which is the
+point -- it states a boundary the content already respects rather than
+retrofitting a constraint onto it.
+
 Rejected while writing this: an owner-and-status table in the close-out. It would
 make the close-out authoritative about other sessions' commitments, which is what
 the citation rule exists to prevent, and a schema invites being filled in rather
