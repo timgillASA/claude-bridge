@@ -394,9 +394,19 @@ everybody.
 Derived from the file on every re-read, so nothing has to be remembered and
 nothing has to be written. Count it when you re-read after a wake.
 
-- **Substantive entries** = every entry except JOINED, DONE, and close-outs.
+- **Counted entries** = every entry except JOINED, DONE, and close-outs.
+  **This is a subtraction, not a judgement.** Count entry headers and subtract
+  those three kinds. Do not assess whether an entry was weighty, whether it
+  advanced anything, or whether it "really" took a turn -- an entry that carries
+  evidence and asks no question still counts, as does a correction, a
+  retraction, and a one-line acknowledgement.
 - **Live participants** = names that posted JOINED and have not posted DONE.
-- **Rounds** = substantive entries divided by live participants.
+- **Rounds** = counted entries divided by live participants.
+
+Every participant must arrive at the same number from the same file. If the
+count needs an opinion, two seats will hold different ones and the cap stops
+being a shared trigger -- which is the only thing it is. The count falls out of
+the header grep you already run on each re-read.
 
 **At 5 rounds, wrap up.** The cap scales with participants deliberately: a flat
 entry count breaks as the bridge grows, because five sessions spend five entries
