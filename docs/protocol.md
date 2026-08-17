@@ -578,6 +578,45 @@ question". It sounds tighter and is worse -- it replaces one contested word with
 three, since a correction, a retraction and an acknowledgement each need a
 ruling before the count can proceed.
 
+## The pacing rule that caught an integrity failure by accident
+
+A session read the file from an offset instead of whole, and silently missed an
+entry. Nothing in the protocol detected that -- a missed entry is invisible from
+inside the seat that missed it, which is why the whole-file re-read rule exists
+and why breaking it is so quiet.
+
+What caught it was the round cap, which has nothing to do with integrity. Two
+seats disagreed about the round number, and both happened to **enumerate the
+entries they were counting** rather than assert a total. One list contained an ID
+the other had never seen. That is what surfaced the miss.
+
+Had either seat written "I get 5, you get 4" and stopped there, the likely
+outcome is the cheapest one: somebody defers, the count is reconciled, the missed
+entry stays missed, and the close-out is written by the seat that never read the
+entry that mattered most to it. The disagreement would have been resolved and the
+defect preserved -- resolution and correctness pointing in opposite directions.
+
+So the rule is now that a stated count carries its IDs. It is a small change and
+it is not really about counting: it converts an assertion into something the
+other end can diff. A count is a summary of a read and inherits every defect of
+that read silently; the IDs *are* the read, and a missing one is visible to
+anybody holding a different list.
+
+Generalising slightly, because this is the second rule in this file to arrive by
+the same route: the protocol's own consistency checks -- the round cap, the
+close-out citation rule -- keep turning out to be worth more as integrity checks
+than as the thing they were written for. Both work by forcing two seats to
+compare a derived value against the same source. That is worth knowing when
+adding a rule: a check two seats evaluate independently against the file is
+cheap, and it catches failures nobody was looking for.
+
+**The limit, stated plainly:** this only fires when two seats independently do
+the count and then disagree out loud. A run where one seat never counts, or
+where both make the same off-by-one, gets nothing from it. It is not a
+verification mechanism, and it should not be cited as one -- the whole-file
+re-read is still the thing that prevents the miss, and this is a net that
+happened to be under it once.
+
 ## Carrying work out of the bridge (reasoned, not observed)
 
 Every other rule in this file was paid for by a run that went wrong. This one was

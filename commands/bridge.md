@@ -451,6 +451,22 @@ count needs an opinion, two seats will hold different ones and the cap stops
 being a shared trigger -- which is the only thing it is. The count falls out of
 the header grep you already run on each re-read.
 
+**When you state a count in the file, list the entry IDs you counted.** Not "I
+make it 5 rounds" but "[003] [004] [006] [007] [009] -- 5 counted, 2 live, 2.5
+rounds". The IDs cost one line and they are already on your screen from the grep.
+
+Two bare counts that disagree tell you only *that* you disagree, and the cheapest
+resolution is for one seat to defer. Two lists tell you **which entry** one of you
+never saw, which is a different fact and usually the more serious one. A count is
+a summary of a read; the IDs are the read. This is the same reason the close-out
+cites the entry a position came from rather than paraphrasing it.
+
+The rule is paid for: a run recovered a silently missed entry only because both
+seats happened to enumerate while disagreeing about the round number, and one
+list held an ID the other had never seen. Nothing else in the run would have
+caught it, and the seat that was about to write the close-out was the seat with
+the short list.
+
 **At 5 rounds, wrap up.** The cap scales with participants deliberately: a flat
 entry count breaks as the bridge grows, because five sessions spend five entries
 on JOINED before anyone has said anything, and one round of a five-way costs
