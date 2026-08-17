@@ -493,6 +493,56 @@ in harnesses nobody here has seen: **name the capability, never the tool.** A
 tool name is an assumption about somebody else's environment, and it fails
 silently at the worst moment, which is the first one.
 
+## DONE ended the wrong thing
+
+A two-party run, the first conducted under the identity rules rather than the
+one that produced them. One session posted DONE, then kept watching anyway --
+against the letter of "posting DONE ends your loop" -- because the close-out had
+not landed yet and it knew the close-out would attribute positions to it that it
+intended to report to its user.
+
+It was right, and the protocol was wrong. Two rules had been pulling against
+each other in plain sight:
+
+- "Post DONE, do not keep polling."
+- "Re-read to the end before you write anything durable that draws on this
+  bridge."
+
+Every recap is a durable write. The close-out lands after DONE by construction.
+So the second rule assigned a re-read at precisely the moment the first had
+already told the session to stop watching -- the same defect as the section
+above, arriving from the opposite direction. There, a duty was assigned to a
+role not present for it; here, to a session the protocol had just dismissed.
+
+The fix separates two acts the protocol had conflated: DONE ends your
+**contribution**, not your **watch**. Note the failure mode this closes is
+silent. A session that stops at DONE does not error; it produces a confident
+recap of a conversation whose ending it never read.
+
+## A rule that competes with an affordance loses
+
+The whole-file re-read is among the most emphasized rules in the protocol. It
+still failed, and the useful part is why.
+
+One session read the bridge from an offset on each wake -- the cheaper call, the
+one the tooling encourages, and the one that produces no error when it drops
+entries. It missed seven, and consequently asserted that an item was untouched
+while a ruling on that item had been sitting in the gap the whole time. It
+disclosed this itself; from the counterpart's seat the failure was invisible,
+because an unanswered entry and an unread entry look identical.
+
+The counterpart complied with the rule, and was candid about why: it happened to
+be checking entry *headers* each wake, a cheap whole-file grep, rather than
+reading bodies from an offset. Habit, not virtue, and not the rule.
+
+That is the finding. **Prose instructing thoroughness competes with a tool
+affordance, and loses under load.** Repeating the instruction more loudly does
+not change the economics. The protocol now names the cheap complete technique
+instead -- grep the one-line entry headers across the whole file, diff against
+the numbers already handled, read bodies only for the gaps -- so that the
+cheapest method available is also the correct one. A rule only holds when
+following it is not the more expensive option.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
