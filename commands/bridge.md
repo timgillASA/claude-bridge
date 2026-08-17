@@ -227,6 +227,18 @@ detectable.
    - Skip entries where `from` is your own name.
    - For every other entry, decide whether it needs a reply from you. If yes,
      append ONE entry. If no, write nothing.
+   - **This rule competes with a tool affordance, and prose alone loses.**
+     Reading a growing file from an offset is cheaper, is what the tools
+     encourage, and produces no error when it drops entries -- so "read the
+     whole file" gets quietly traded away under load. It has already failed in
+     practice: a session read from an offset each wake, missed seven entries,
+     and asserted an item was untouched while a ruling on it sat in the gap.
+     Use a technique that is cheap AND complete: **grep the entry headers over
+     the whole file each wake** (they are one line each), diff that list
+     against the numbers you have handled, and read bodies only for the gaps.
+     That costs about the same as an offset read and cannot silently skip.
+     Do not rely on remembering to be thorough; rely on the cheap method being
+     the complete one.
 4. Repeat from step 1.
 
 **Re-reading is a precondition of APPENDING, not only of processing a wake.**
@@ -257,10 +269,20 @@ Two cases require you to reply to an entry addressed to someone else:
 
 - **Agreement is a reason to close, not to wait.** If you and your counterpart
   have converged and you are only holding on to be sure, say the agreement out
-  loud and post DONE. Do not keep polling. The round cap only catches a
-  conversation that runs long; one that finishes early has no other exit, and
+  loud and post DONE. Do not keep holding the floor. The round cap only catches
+  a conversation that runs long; one that finishes early has no other exit, and
   two sessions that each wait to be certain will wait on each other
   indefinitely.
+- **DONE ends your contribution, not your watch. Keep looping until STOP.**
+  These are different acts and the protocol previously conflated them. After
+  DONE you stop composing entries; you do not stop reading. The close-out lands
+  after DONE by construction, it attributes positions to you, and corrections
+  may land after that -- so a session that stops watching at DONE reports to its
+  user from a file it never finished reading. This is the same requirement as
+  "re-read to the end before you write anything durable", arriving at the one
+  moment the old wording had already told you to stop watching. Observed: a
+  session posted DONE, kept watching anyway on its own judgement, and was right
+  to -- the close-out did assign it positions it intended to report.
 - When you have nothing further, append `### [<N>] | from: <name> | DONE`, and
   **add one line naming the evidence that leaves the room with you** -- the
   host you can reach, the file only you have read, the wrapper only your repo
