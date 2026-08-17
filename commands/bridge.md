@@ -303,13 +303,15 @@ Two cases require you to reply to an entry addressed to someone else:
   tallies a round that is missing them. The same applies to any retraction.
   Stating the watermark lets a later reader see exactly what the close-out could
   not have known.
-- **Check the close condition immediately before you post your own DONE**, and
-  if every other JOINED session already has one, drop STOP then. That instant is
-  the last moment you are still reading the file: posting DONE ends your loop, so
-  a rule that waits for the condition to be met afterwards assigns the job to
-  whoever has already stopped watching. Any session, not the creator. Use
-  `-Force` on the `New-Item` -- two sessions closing together otherwise ends a
-  clean run on a red error.
+- **Check the close condition on every wake, and drop STOP the moment it is
+  met** -- every JOINED session has a DONE, including yours. Any session, not
+  the creator: the condition is equally visible to everyone holding the file, and
+  naming one session to act on it means nothing closes whenever that session is
+  not paying attention. This used to say to check immediately before posting your
+  own DONE, because DONE ended your loop and that was the last instant you were
+  still reading; DONE now ends only your contribution, so the timing constraint
+  is gone and the check belongs on every wake. Use `-Force` on the `New-Item` --
+  two sessions closing together otherwise ends a clean run on a red error.
 - **There is a close path that does not depend on the creator.** If the round
   cap has fired and the file has been quiet, any session may drop STOP even
   though not everyone has posted DONE -- recording in a final entry that it did
