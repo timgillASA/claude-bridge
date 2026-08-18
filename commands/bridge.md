@@ -343,6 +343,18 @@ Two cases require you to reply to an entry addressed to someone else:
   whatever you agreed to carry somewhere in your own repo that outlives this file
   -- a handoff note, the spec it changes, a task. The file is the record of the
   conversation, not the record of the work.
+  **When what you carry is a constraint on someone ELSE's work, that instruction
+  is silent, and the silence is load-bearing.** A commitment only has to survive
+  where you will look; a constraint has to reach a seat that does not read your
+  repo. The carrying session writes it in **its own** repo, and tells the
+  constrained session **in channel, in its DONE, by entry number.** Do not
+  discharge it by writing into another participant's repo: observed, a seat
+  satisfied "somewhere durable" by writing into a peer's queue file mid-run
+  while that peer was editing the same file, and it stayed clean only because
+  that repo happened to carry its own rule for foreign edits and that peer
+  happened to check before committing. A trio whose repos share no such file has
+  no defined durability channel at all, and the protocol should not depend on
+  one existing.
 - **DONE carries only what cannot be reconstructed from this file by a later
   reader**: evidence only you held, commitments only you can make. That is the
   whole budget. Every addition to DONE has been defensible on its own and nothing
@@ -366,10 +378,34 @@ Two cases require you to reply to an entry addressed to someone else:
   is the same error as closing it: both describe it as a settlement that did not
   happen, and the second is how the user's decision gets made for them by a
   session summarising toward closure.
-- **Assemble the running order from the DONE entries; do not invent it.** Same
-  rule as citing attributed positions, for the same reason. If two DONE entries
-  disagree about which side goes first, that is an open item to report, not a
-  discrepancy to smooth over.
+- **The running order is owed by whoever drops STOP, not by the close-out.**
+  Assemble it from the DONE entries; do not invent it -- same rule as citing
+  attributed positions, for the same reason. **Cite every line to the DONE it
+  came from, and ask each seat to correct its own rows.** That is what makes the
+  duty safe when the closer is the seat with the least stake in the work, which
+  is a common case: the seat holding least is often the one free to notice the
+  file has gone quiet. If two DONE entries disagree about which side goes first,
+  that is an open item to report, not a discrepancy to smooth over.
+  **Why the closer rather than the creator, who posts the close-out:** the
+  close-out is written when the round cap fires, which is BEFORE the DONE
+  entries exist. Observed on the first run under the carry rule -- a close-out
+  composed with zero DONEs on file. The one artifact with an assigned owner was
+  by construction incapable of carrying the running order, so nothing carried
+  it: all three seats produced `carrying:`, `waits on:` and the inversion line,
+  the fields did their job, and the user was handed three DONE entries to
+  reconcile by hand. STOP is the only event in this protocol defined by the
+  inputs existing -- every JOINED session has DONE -- so the duty and the
+  evidence become available at the same instant.
+  **On the close path that does not wait for everyone** -- cap fired, file
+  quiet, seats still un-DONE -- you owe the order assembled from what is on
+  file, **plus the seats whose DONE is missing and what that leaves unknown.**
+  Read literally, the duty would otherwise ask for an order built from DONE
+  entries that do not exist. A named gap is a handoff; a silent one reads as
+  nothing pending.
+  **The duty attaches to the close condition being met, not to the STOP file
+  being written.** They are the same instant on the normal path and they are not
+  on the abandoned one, and it is the abandoned path where an order is most
+  likely to be needed and least likely to be complete.
 - **A DONE written before the second repo was first named has no carry status.**
   It is an open item, not a `nothing` -- cite both entry numbers, the DONE and
   the entry where the second repo first appears. The trigger is observable but it

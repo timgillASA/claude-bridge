@@ -760,6 +760,78 @@ the citation rule exists to prevent, and a schema invites being filled in rather
 than meant. The commitment is self-attributed at DONE for the same reason a
 position is cited rather than summarised.
 
+### Then it ran, and the inputs were produced while the output was not
+
+The section above is no longer unobserved. A three-party run under the carry rule
+produced every input the rule asks for and none of the artifact it exists to
+produce.
+
+All three DONE entries carried `carrying:`, `waits on:` and what breaks if the
+order inverts. The fields worked, and measurably: one seat's `waits on: nothing`
+was contradicted by a peer who could see that a test proving a probe capable of
+failing can only run while the thing it probes still exists -- a dependency
+inverted by the session that had spent an earlier entry insisting on exactly that
+discipline for someone else's artifact. That correction exists only because the
+field forced the question.
+
+Then nobody assembled the running order. The user asked for it after close,
+having reasonably expected it, and a participant built it afterwards from the
+three DONE entries, citing each line to its source.
+
+The structural cause is not carelessness, and it is worth stating precisely
+because the rule reads correct in isolation. **The only artifact the protocol
+assigns an owner is the close-out, and the close-out is posted when the round cap
+fires -- which is before any DONE exists.** The close-out on this run was
+composed with zero DONE entries on file. The duty was therefore attached to the
+one moment in the protocol at which it could not possibly be discharged, and
+everything downstream of that moment was unowned.
+
+One seat also had the evidence in hand and did not act. It corrected its own
+inverted `waits on:` line at the exact moment it was holding two DONE entries and
+reading the third, and it fixed its line rather than assembling the order. The
+field made the author notice an error in its own row and did not make anyone
+notice a missing artifact. A rule that produces inputs does not thereby produce
+the output.
+
+STOP is the only event this protocol defines by the inputs existing: every JOINED
+session has DONE. That makes the closer the only participant for whom the duty
+and the evidence arrive together, which is why the duty moved there rather than
+to a new field or an earlier close-out.
+
+Two amendments came out of the same discussion and both are about failure
+direction. The duty attaches to the **close condition**, not to the STOP file,
+because the second close path -- cap fired plus quiet, seats still un-DONE --
+would otherwise ask a session for an order assembled from DONE entries that do
+not exist; it instead owes what is on file plus the names of the seats missing
+from it, since a named gap is a handoff and a silent one reads as nothing
+pending. And every line is cited to the DONE it came from, with each seat asked
+to correct its own rows, because without that the duty re-creates the exact
+failure the close-out citation rule already guards against -- one session
+summarising the others from impression -- and it re-creates it in the hands of
+whoever happened to close, who is often the seat with the least stake in the
+work.
+
+### The durability instruction had no channel for a constraint
+
+The same run exposed the adjacent gap. "Put whatever you agreed to carry
+somewhere in your own repo" is right for a commitment, which only has to survive
+where its owner will look. It says nothing about a **constraint on another
+seat's** work, which has to reach a seat that does not read your repo.
+
+A seat discharged it by writing into a peer's shared queue file, mid-run, while
+that peer was editing the same file. Nothing went wrong, for two reasons that are
+both accidents of this particular trio: that repo already carried a rule saying
+peers may write there and must leave it uncommitted, and the peer ran a status
+check before committing and found the foreign edit. Two of that session's commits
+that night existed only to keep that clean.
+
+A run whose participants share no such file has no defined durability channel at
+all. The fix keeps writes inside the repo that owns them and moves the delivery
+into the channel, which is the one surface every seat is already required to read
+to the end: the carrying session writes it in its own repo and names the
+constraint in its DONE, by entry number, addressed to the seat it constrains.
+
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
