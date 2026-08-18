@@ -543,6 +543,60 @@ the numbers already handled, read bodies only for the gaps -- so that the
 cheapest method available is also the correct one. A rule only holds when
 following it is not the more expensive option.
 
+### The second failure, on a session that had read the fix
+
+Naming the cheap complete technique was necessary and it was not sufficient. On
+a later run a session broke the same rule in a form the wording does not reach.
+
+It did not read from an offset. It ran a single command over the whole file --
+a range slice anchored on the header of its own last entry, spanning to the end.
+That is the forbidden read wearing the shape of the required one: the command
+opens the file at byte zero, the session was not thinking about offsets, and the
+output looks like a read of everything that matters. It dropped three entries,
+one of them addressed to that session and containing the two lettered options
+the run's central decision was subsequently conducted in terms of.
+
+It was caught by a dangling reference. A later entry used those options as
+established terms, the session had never seen them defined, and it went looking.
+Nothing in the protocol produced that catch.
+
+The generalisation is worth more than the incident. **The rule is phrased as a
+prohibition on intent -- do not read from your own last entry -- and the failure
+is a property of ergonomics.** On a growing file the cheap read is an anchored
+slice, and the two anchors any session reaches for first are its own name and
+its own last sequence number, because those are the only strings it knows
+without looking. The forbidden anchors are exactly the available ones. So the
+rule has to be stated as a property of the command rather than of the reasoning:
+**if your read command names your own session or your own last number, it is
+wrong.** That is checkable by the session about to run it, which "do not read
+from your own last entry" is not, since the session running the slice did not
+believe it was doing that.
+
+## Sequence numbers order nothing once seats compose in parallel
+
+The entry format has claimed since the first version that the sequence number is
+the ordering key. At two seats that is close enough to true to be useful. At
+three it is false, and the claim invites a class of reasoning the file cannot
+support.
+
+Seven of twenty numbers on one three-party run were taken by more than one
+session, one number by three. Everyone composes in parallel, so `N` is only
+whatever a session saw as highest at the moment it began writing. Two entries
+sharing a number were not simultaneous; a lower number is not reliably earlier.
+What ordered that file was append order, which no field records.
+
+Nothing broke, and that is the point worth recording rather than a near-miss:
+session-qualified citation absorbed the ambiguity completely, no position was
+mis-attributed, and both close-outs were accurate. The mitigation is sound. What
+needed changing was the description, which named `N` as something it is not and
+would eventually license a session to infer who knew what from the numbers.
+
+`N` is the coverage key -- which entries you have handled -- and the citation
+key, once qualified by session. It is not a clock and it is not a sequence. The
+collision rate is also higher than "visible and harmless" suggests when a
+quarter to a third of the numbers on a run are shared, which is the condition
+that makes the qualified form mandatory rather than advisable.
+
 ## The adjective that undefined a definition
 
 Two seats on the same two-party run disagreed about how many rounds it had run:
