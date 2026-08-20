@@ -888,10 +888,11 @@ constraint in its DONE, by entry number, addressed to the seat it constrains.
 
 ## One defect, six times, in five costumes
 
-The rule in `commands/bridge.md` under "Before you propose a rule" is stated once
-and abstractly. This is the evidence, because the abstraction is not persuasive
-without it: every instance below looked correct to the person who wrote it, and
-every one was caught by somebody else.
+The rule under "Before you propose a rule" -- in `CONTRIBUTING.md`, since it
+governs amendments rather than runs -- is stated once and abstractly. This is
+the evidence, because the abstraction is not persuasive without it: every
+instance below looked correct to the person who wrote it, and every one was
+caught by somebody else.
 
 | # | Amendment | What it collapsed |
 |---|---|---|
@@ -927,6 +928,20 @@ check is learnable, which is what makes it worth the line it costs.
 between two workstations. Whether the up-front check actually fires before the
 rule is written is untested -- every one of these was caught afterwards, by
 somebody who did not write it.
+
+**Postscript: two more arrived within a day of the table, both caught by an
+outside reviewer rather than a run.** The merge-time fix for instance 6 replaced
+`>` with `>=` -- a second numeric filter on the same broken premise, since a
+slow seat's entry can land carrying a number below every threshold once faster
+seats have moved on; the reviewer's scenario is now the reason the Loop tracks
+`(session, N)` identities and prescribes no threshold at all. And the round
+cap's close-out ownership turned on "unless the creator is visibly mid-reply"
+-- a liveness judgement in a protocol whose own section heading says liveness
+is not observable; ownership is now "first to observe the condition with no
+close-out on file." Eight instances, no new costume: the second was Private
+judgement again, the first was the same qualification failing to travel into a
+*replacement* fix. A defect class does not stop applying to the corrections it
+inspires.
 
 
 ## Known caveats

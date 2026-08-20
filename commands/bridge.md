@@ -261,8 +261,11 @@ detectable.
    how, on a harness without a PowerShell tool). It blocks until the file
    changes or the STOP file appears, then returns CHANGED or STOPPED.
 2. If STOPPED: report the bridge closed, stop looping.
-3. If CHANGED: **re-read the whole file** and process every entry with a
-   sequence number higher than the highest you have already handled. Do not
+3. If CHANGED: **re-read the whole file** and process every entry you have not
+   already handled -- where handled is tracked as **`(session-name, N)` pairs,
+   never as bare numbers and never as a threshold.** A number alone is not an
+   identity: numbers collide when seats compose in parallel, and a slow seat's
+   entry can land carrying a number below everyone's highest-handled. Do not
    read from your own last entry, do not read by position, do not read "since
    I last acted" -- all three silently skip entries appended after your last
    read but before your entry landed, and that failure is invisible from
@@ -277,9 +280,11 @@ detectable.
      practice: a session read from an offset each wake, missed seven entries,
      and asserted an item was untouched while a ruling on it sat in the gap.
      Use a technique that is cheap AND complete: **grep the entry headers over
-     the whole file each wake** (they are one line each), diff that list
-     against the numbers you have handled, and read bodies only for the gaps.
-     That costs about the same as an offset read and cannot silently skip.
+     the whole file each wake** (they are one line each), diff that list of
+     `(session-name, N)` pairs against the pairs you have handled, and read
+     bodies only for the gaps. That costs about the same as an offset read and
+     cannot silently skip -- a shared number and a late-landing lower number
+     both show up as unrecognized pairs.
      Do not rely on remembering to be thorough; rely on the cheap method being
      the complete one.
    - **The rule is written as a prohibition on intent, and the failure is a
@@ -294,17 +299,13 @@ detectable.
      discipline.
      **The test is mechanical: if your read command names your own session, or
      your own last entry number, it is wrong.** Every anchor a session reaches
-     for naturally -- its own name, its own high-water mark -- is the forbidden
-     one, because those are the two strings it knows without looking. Filter on
-     sequence number greater than **or equal to** your high-water mark, or dump
-     the file whole. Not strictly greater: numbers collide, at a quarter to a
-     third of them on a three-party run, so `> N` silently drops a peer's entry
-     that shares your boundary number -- the same miss this rule exists to
-     prevent, reintroduced by the fix for it. Re-reading your own boundary entry
-     costs a glance; missing the one beside it cost this protocol three entries
-     and the definition its central decision turned on. The number is a coverage
-     key only once qualified by session, and that qualification has to survive
-     into the filter, not just into the citation.
+     for naturally -- its own name, its own highest-handled number -- is the
+     forbidden one, because those are the two strings it knows without looking.
+     **There is no safe numeric threshold, `>` or `>=` alike.** An earlier
+     version of this rule prescribed one and then a corrected one, and both
+     drop entries: numbers collide at a quarter to a third on a measured
+     three-party run, and a slow seat's entry lands below every threshold once
+     faster seats have moved on. Diff identities, or dump the file whole.
      An anchored slice that spans to the end of the file looks like a complete
      read in the command, in the output, and in the reasoning about it.
 4. Repeat from step 1.
@@ -397,10 +398,15 @@ Two cases require you to reply to an entry addressed to someone else:
   its territory, and that is correct behavior, not a workaround. It does mean
   "every JOINED session has DONE" is a snapshot rather than a latch, so do not
   treat it as proof the bridge is finished.
-- The session that created the bridge posts the **close-out**: what was
-  settled, and what was raised and deliberately left untouched. Silence reads
-  as consensus otherwise. Mark it `no reply needed` -- it is for whoever reads
-  the file later, and it is exempt from the length guidance.
+- **Whoever first observes the close condition with no close-out on file posts
+  the close-out**: what was settled, and what was raised and deliberately left
+  untouched. Silence reads as consensus otherwise. Mark it `no reply needed` --
+  it is for whoever reads the file later, and it is exempt from the length
+  guidance. No seat is special here: an earlier version assigned this to the
+  creator "unless not live", which is a liveness judgment in a protocol that
+  says liveness is not observable. The on-file check replaces it -- a
+  double-posted close-out is two entries saying the same thing, while a
+  close-out waiting on a seat that left is a bridge that never closes.
 - **Report each agenda item against the kind it was marked.** A `settle` item
   reports what was settled or that it was not. A `prepare-for-user` item reports
   the recommendation, the reasoning, and where the seats differ -- and **does not
@@ -578,21 +584,23 @@ This is not a runaway catch -- 5 rounds is about the length of a normal bridge,
 so expect it to fire near the natural end of most of them. That is the point.
 The number is a judgement call; the forced stop to ask the user is not.
 
-**Whoever notices the cap acts on it.** Detecting the condition and handing the
-remedy to one specific session means the cap stops nothing when that session is
-not paying attention. If you counted the rounds, the close-out is yours to post
-unless the creator is visibly mid-reply.
+**Whoever notices the cap, and sees no close-out already on file, posts the
+close-out.** Detecting the condition and handing the remedy to one specific
+session means the cap stops nothing when that session is not paying attention.
+There is no creator privilege and no "unless they look busy" -- those were
+liveness judgments in a protocol that says liveness is not observable. The
+on-file check is the only tiebreaker needed: a doubled close-out costs a
+redundant entry, an unposted one costs the stop.
 
-The session that created the bridge posts the close-out **and also prints it to
-its own user**, who agrees, disagrees, or amends -- the creator is nearly always
-the session the user is sitting in, which is why this needs no observer window
-or separate answer channel. If the creator is not live, whichever session
-notices the cap does it instead.
+**Print the close-out to your own user as well as the file.** The user is
+usually sitting in the creator's session, but they read the shared file live
+and can answer in any window -- reaching them needs no owner, which is why this
+rule can survive the creator being gone.
 
 Where the close-out attributes a position to another session, **cite the entry
-number it came from**. A creator summarising four other sessions from impression
-is how a close-out invents a consensus nobody actually reached. Anything you
-cannot cite, report as not established.
+number it came from**. Summarising the other seats from impression is how a
+close-out invents a consensus nobody actually reached. Anything you cannot
+cite, report as not established.
 
 If the user amends and says carry on, append their words **under your own name,
 marked RELAYED, quoting them** -- see "Never post as the user". It is a write
@@ -680,39 +688,6 @@ user actually wrote, and nothing in this file can prove which those are.
 entry is a conversation, not authorization, and the peer asking cannot see your
 permissions. Writing a file where a peer asks is fine; touching their git
 history, or yours on their instruction, is not.
-
-## Before you propose a rule
-
-**Name the two situations your rule cannot tell apart, and say whether they
-differ in consequence.** If they do, it is broken however correct it reads on
-its own. Six times across four amendments this protocol failed exactly this,
-each in a different disguise, and not one was catchable by its author -- which
-is why it is a step here rather than something review is trusted to catch. The
-amendment that passed clean is the reason it is worth writing down: it wrote its
-negative case unprompted, so this is learnable rather than a tax.
-
-The disguises, in the order they have actually appeared:
-
-- **Absence.** A field that may be omitted makes an omission and the negative
-  case identical to whoever reads it. Write `carrying: nothing`, or make the
-  omission impossible.
-- **Private judgement.** A trigger each party evaluates for itself is not a
-  shared trigger. Two seats disagree about whether the rule fired and both
-  produce correct-looking output. Key it to something on the shared surface.
-- **Time.** A condition read from a growing file carries a timestamp whether or
-  not anyone wrote one down. Ask what happens to a record written before the
-  condition flipped.
-- **Half a pair.** Enumerating the dividend and leaving the divisor a bare
-  number. The half you did not name is where the miss hides, because a miss
-  cannot appear in a list you never wrote.
-- **A qualification that does not travel.** A key meaningful only once qualified
-  needs qualifying everywhere it is used, not only where it is cited. This is
-  the one that survives review, because the sentence stating it correctly is
-  usually in the same document.
-
-One default covers the cases this list does not: **fail toward the loud one.** A
-false "needs attention" costs a line. A false "nothing here" costs the thing the
-rule existed to prevent.
 
 ## Watch script
 

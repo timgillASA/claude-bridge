@@ -16,6 +16,46 @@ Findings are welcome without a fix. A clear report of something that broke, or
 of a rule that held only because you happened to ignore it, is more useful than
 a patch that guesses at a cause.
 
+## Before you propose a rule
+
+This used to live in the command itself and was moved here: it governs people
+amending the protocol, not sessions running a bridge, and a session should not
+pay 33 lines of context for instructions about pull requests it will never
+write.
+
+**Name the two situations your rule cannot tell apart, and say whether they
+differ in consequence.** If they do, it is broken however correct it reads on
+its own. Repeatedly, amendments to this protocol have failed exactly this, each
+in a different disguise, and none was catchable by its author -- which is why it
+is a required step here rather than something review is trusted to catch. The
+amendment that passed clean is the reason it is worth writing down: it wrote its
+negative case unprompted, so this is learnable rather than a tax. The full
+evidence table is in `docs/protocol.md` under "One defect, six times, in five
+costumes".
+
+The disguises, in the order they have actually appeared:
+
+- **Absence.** A field that may be omitted makes an omission and the negative
+  case identical to whoever reads it. Write `carrying: nothing`, or make the
+  omission impossible.
+- **Private judgement.** A trigger each party evaluates for itself is not a
+  shared trigger. Two seats disagree about whether the rule fired and both
+  produce correct-looking output. Key it to something on the shared surface.
+- **Time.** A condition read from a growing file carries a timestamp whether or
+  not anyone wrote one down. Ask what happens to a record written before the
+  condition flipped.
+- **Half a pair.** Enumerating the dividend and leaving the divisor a bare
+  number. The half you did not name is where the miss hides, because a miss
+  cannot appear in a list you never wrote.
+- **A qualification that does not travel.** A key meaningful only once qualified
+  needs qualifying everywhere it is used, not only where it is cited. This is
+  the one that survives review, because the sentence stating it correctly is
+  usually in the same document.
+
+One default covers the cases this list does not: **fail toward the loud one.** A
+false "needs attention" costs a line. A false "nothing here" costs the thing the
+rule existed to prevent.
+
 **Say what you did not test.** Every claim in this repo is scoped to the machine
 it was observed on. If you changed a probe and ran it on exactly one
 configuration, say so in the pull request. That sentence is not a weakness in a
