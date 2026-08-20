@@ -12,9 +12,14 @@ It is a slash command, which means it is a prompt rather than software. That is
 why it can configure itself on first run, and why the rules below read as
 reasoning rather than as code.
 
-**Status:** working, in regular use, five live runs across two machines. Windows
-only, for now. See [Scope and honesty](#scope-and-honesty) before you trust any
-claim here.
+**Status:** working and actively maintained. Six-plus live runs across two
+machines, two- and three-party, ten protocol revisions each paid for by
+something that actually happened. Windows only, for now. See
+[Scope and honesty](#scope-and-honesty) before you trust any claim here, and
+[docs/protocol.md](docs/protocol.md) for the evidence behind every rule --
+including the designs that were tried and rejected. An open proposal for a 1.0
+restructuring lives in
+[docs/2026-08-19-review-what-this-is-becoming.md](docs/2026-08-19-review-what-this-is-becoming.md).
 
 ---
 
@@ -130,8 +135,10 @@ New-Item 'D:\ClaudeBridge\api-shape-review.md.STOP' -ItemType File -Force
 ```
 
 Each session notices within about five seconds and stops looping. The sessions
-themselves stay alive. Closed bridges get moved to `history\` automatically, a
-day later, by whichever session next runs discovery.
+themselves stay alive. Closed bridges are moved to `history\` a day later by
+whichever session next runs discovery -- which means a machine where nobody
+runs `/bridge` archives nothing, so an old STOP sitting in the directory is
+normal, not a failure.
 
 ## What a bridge looks like
 
@@ -211,16 +218,34 @@ Every one of these was paid for. If you fork this and are tempted to optimize
 one away, read [docs/protocol.md](docs/protocol.md) first -- it has the failure
 that produced each.
 
-- **Sequence numbers order the file, never timestamps.** Entries do not land in
-  clock order, because sessions compose while others are writing.
-- **Re-read the whole file on every wake.** Not "since my last entry", not by
-  position. Both silently drop entries, and the loss is invisible from inside
-  the session that suffers it.
+- **Append only.** Corrections are new entries, never edits over old ones.
+- **Sequence numbers are not a clock.** Seats compose in parallel, so numbers
+  collide -- a quarter to a third of them on a measured three-party run -- and a
+  lower number is not reliably earlier. `N` is a coverage and citation key, and
+  only once qualified by session name. An earlier version of this file called
+  `N` the ordering key; the evidence killed that claim.
+- **If your read command names your own session or your own last entry number,
+  it is wrong.** The rule used to prohibit the *intent* ("do not read from your
+  own last entry") and was broken by a session that could quote it, because on a
+  growing file the cheap read is a slice anchored on exactly those two strings.
+  Read the whole file, or filter on sequence number greater than or equal to
+  your high-water mark -- `>=`, not `>`, because numbers collide.
 - **`to:` says who should answer. It is not a filter on what you read.** The
   entries that most needed a reply were addressed to somebody else.
-- **Append only.** Corrections are new entries, never edits over old ones.
 - **One question per entry.** Length is a symptom of breaking that, not a limit
   in its own right -- an earlier fifteen-line cap was measuring the wrong thing.
+- **A stated count carries the entry IDs it counted, and the divisor.** Two bare
+  counts that disagree only tell you that you disagree; two lists tell you which
+  entry one of you never saw. A silently missed entry was recovered exactly this
+  way, by the seat about to write the close-out.
+- **Every agenda item is marked `settle` or `prepare-for-user`, and an unmarked
+  item is `prepare-for-user`.** Some questions are the user's to decide; a
+  close-out that records one as "unresolved" has quietly made that decision for
+  them.
+- **Anything you write is a thing you write, not a line you omit.** `carrying:
+  nothing` is an entry; an omitted line and an empty one read identically to
+  whoever assembles the close-out, and those two cases have opposite
+  consequences.
 - **Never post under the user's name.** `from: <user>` is unauthenticated and the
   protocol grants it supremacy, so a session relaying a real decision in good
   faith can issue a ruling no human made.
@@ -228,10 +253,18 @@ that produced each.
   watcher has exited. Re-read to the end before you write anything durable that
   draws on the bridge -- a doc, a commit, a memory entry, a report to your user.
 
+There is also a rule about writing rules -- "name the two situations your rule
+cannot tell apart" -- added after six amendments shipped the same defect in five
+different costumes. The taxonomy is in
+[docs/protocol.md](docs/protocol.md#one-defect-six-times-in-five-costumes).
+
 ## Scope and honesty
 
-Five runs, two machines, one operating system, two to four participants, and
-every one of them had a live and fast-replying counterpart.
+Six-plus runs, two machines, one operating system, two and three participants,
+and every one of them had live and fast-replying counterparts. Three-party
+operation is tested rather than reasoned now -- it is where the sequence-number
+collisions were measured and where the running-order gap was found -- but
+nothing has run at four seats or more.
 
 **Both machines are operated by the same person**, which is a bias worth stating
 outright: every run so far has had one human holding all the context, able to
@@ -241,11 +274,12 @@ where the two ends genuinely could not talk. Two people using it for real is the
 test it has not had.
 
 The failure modes documented here are real and were observed. **Their
-frequencies are not established, and the multi-session rules -- the round cap,
-the name-collision check, the close-out citation rule -- are reasoned for four
-or five participants and tested with two.** The protocol has never been
-exercised against a slow or absent counterpart, which is the condition it
-itself calls the most common one.
+frequencies are not established, and the rules are tested at two and three
+seats, reasoned beyond that.** The protocol has never been exercised against a
+slow or absent counterpart, which is the condition it itself calls the most
+common one -- and its archival and close rules only execute when somebody runs
+the tool, so an abandoned bridge can sit formally open for days with nothing to
+notice. Both are known, documented, and unfixed.
 
 Treat the ranking of fixes as reasoning rather than measurement. If you run this
 somewhere it has not been run, the interesting result is the one that
@@ -255,10 +289,14 @@ contradicts this file, and an issue saying so is welcome.
 
 Fork and open a pull request -- see [CONTRIBUTING.md](CONTRIBUTING.md). Findings
 are welcome without fixes attached, and a report of something that broke on your
-hardware is worth more than a patch that guesses at the cause. Both changes
-merged so far came from an install the maintainer could not see, and verifying
-each one on a second machine turned up a further defect the original reporter
-had no way to observe.
+hardware is worth more than a patch that guesses at the cause.
+
+Ten pull requests merged so far, nine of them from an install the maintainer
+cannot see into. The review loop earns its keep in both directions: most
+incoming amendments -- including the maintainer's own -- have needed a
+correction of the same recurring class before or on merge, which is what
+produced the rule about writing rules above. Expect your PR to get that
+treatment; it is the process working, not a rejection.
 
 ## License
 
