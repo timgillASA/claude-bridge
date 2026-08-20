@@ -219,11 +219,24 @@ Appended only. Never overwrite or edit a prior entry.
     <message text>
 
 `N` is one greater than the highest number already in the file. **The sequence
-number is the ordering key, not the clock.** Entries do not land in timestamp
-order -- sessions compose while others are writing -- and every session that
-tried to slice this file by time or by position missed entries because of it.
-A human-readable time may be appended as decoration; it carries no ordering
-meaning.
+number is the coverage and citation key. It is not the clock, and at three or
+more seats it is not the ordering key either.** Entries do not land in
+timestamp order -- sessions compose while others are writing -- and every
+session that tried to slice this file by time or by position missed entries
+because of it. A human-readable time may be appended as decoration; it carries
+no ordering meaning.
+
+What `N` is for is knowing **which entries you have handled** and **which entry
+you are referring to**. What actually orders the file is append order. With
+several seats composing at once, `N` is only whatever each session saw as
+highest when it started writing, so two entries sharing a number are not
+simultaneous and a lower number is not necessarily earlier. Measured on one
+three-party run: seven of twenty numbers were taken by more than one session
+and one number by three. Session-qualified citation absorbs this completely for
+reference -- which is why the rule below is not optional at three seats -- but
+do not reason about who knew what from the numbers alone. If the order in which
+two entries landed matters to a claim you are making, say what you observed
+rather than deriving it from `N`.
 
 **Two sessions taking the same N is harmless for reading and NOT harmless for
 citing.** It costs nothing while you are processing entries, because you read
@@ -269,6 +282,23 @@ detectable.
      That costs about the same as an offset read and cannot silently skip.
      Do not rely on remembering to be thorough; rely on the cheap method being
      the complete one.
+   - **The rule is written as a prohibition on intent, and the failure is a
+     property of tooling. Apply it to your command, not to your reasoning.**
+     A session that had read this rule broke it anyway, by reaching for a
+     range slice anchored on its own last entry -- a single command over the
+     whole file, which is what the rule appears to ask for, and which drops
+     everything before the anchor. It hid three entries, one of them addressed
+     to that session and containing the options the run's central decision
+     turned on. It was caught by a dangling reference: a later entry used two
+     terms as established that the session had never seen defined. Luck, not
+     discipline.
+     **The test is mechanical: if your read command names your own session, or
+     your own last entry number, it is wrong.** Every anchor a session reaches
+     for naturally -- its own name, its own high-water mark -- is the forbidden
+     one, because those are the two strings it knows without looking. Filter on
+     sequence number greater than your high-water mark, or dump the file whole.
+     An anchored slice that spans to the end of the file looks like a complete
+     read in the command, in the output, and in the reasoning about it.
 4. Repeat from step 1.
 
 **Re-reading is a precondition of APPENDING, not only of processing a wake.**
