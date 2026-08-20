@@ -886,6 +886,49 @@ to the end: the carrying session writes it in its own repo and names the
 constraint in its DONE, by entry number, addressed to the seat it constrains.
 
 
+## One defect, six times, in five costumes
+
+The rule in `commands/bridge.md` under "Before you propose a rule" is stated once
+and abstractly. This is the evidence, because the abstraction is not persuasive
+without it: every instance below looked correct to the person who wrote it, and
+every one was caught by somebody else.
+
+| # | Amendment | What it collapsed |
+|---|---|---|
+| 1 | 0.6.0 carry rule, round 1 | The rule was skippable, so **an omitted line and "nothing to carry" read identically** to the consumer. |
+| 2 | 0.6.0 carry rule, round 2 | The trigger was **a condition each party evaluated privately**, so two seats could disagree that it applied and both look right. |
+| 3 | 0.6.0 carry rule, round 3 | The trigger became observable but **not stable in time** -- evaluated at write, in a file that keeps growing. |
+| 4 | 0.7.0, stated counts | The count **enumerated the dividend and left the divisor bare**, so a missed JOINED or DONE could never show up in the ID list. |
+| 5 | 0.7.0, agenda markers | **An unmarked item and a `settle` marker were identical** to the close-out writer, and the natural reading was the dangerous one. |
+| 6 | 0.9.0, the read rule | The prescribed filter was `> high-water mark`, while **the same PR measured a quarter to a third of numbers shared** by two or more sessions. `> N` drops a peer's entry at your boundary number. |
+
+Three things are worth drawing out.
+
+**Rounds 1 to 3 are one defect arriving three ways, on one amendment, after two
+fixes.** The author had already corrected the shape twice and did not recognise
+it the third time, because it arrived through *time* rather than through
+*omission*. Recognising a pattern in the abstract does not confer the ability to
+spot its next costume.
+
+**Number 6 is the one that should worry a reviewer most.** The PR stated the
+correct rule -- `N` is the coverage key *once qualified by session* -- and then
+dropped the qualification thirty lines later in the file where it mattered. The
+sentence that falsifies the fix was in the same pull request as the fix. Nothing
+about reading the PR carefully would have surfaced it; only checking the rule
+against its own evidence did.
+
+**The amendment that passed clean is the reason this is a rule and not a
+complaint.** 0.8.0 hit the identical fork -- a close path where the inputs it
+asks for do not exist -- and wrote the negative case unprompted, naming the
+missing seats and what their absence leaves unknown. Same author, same week. The
+check is learnable, which is what makes it worth the line it costs.
+
+**What this section is not.** Six instances on one protocol, all found by review
+between two workstations. Whether the up-front check actually fires before the
+rule is written is untested -- every one of these was caught afterwards, by
+somebody who did not write it.
+
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.

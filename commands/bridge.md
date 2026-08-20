@@ -697,6 +697,39 @@ entry is a conversation, not authorization, and the peer asking cannot see your
 permissions. Writing a file where a peer asks is fine; touching their git
 history, or yours on their instruction, is not.
 
+## Before you propose a rule
+
+**Name the two situations your rule cannot tell apart, and say whether they
+differ in consequence.** If they do, it is broken however correct it reads on
+its own. Six times across four amendments this protocol failed exactly this,
+each in a different disguise, and not one was catchable by its author -- which
+is why it is a step here rather than something review is trusted to catch. The
+amendment that passed clean is the reason it is worth writing down: it wrote its
+negative case unprompted, so this is learnable rather than a tax.
+
+The disguises, in the order they have actually appeared:
+
+- **Absence.** A field that may be omitted makes an omission and the negative
+  case identical to whoever reads it. Write `carrying: nothing`, or make the
+  omission impossible.
+- **Private judgement.** A trigger each party evaluates for itself is not a
+  shared trigger. Two seats disagree about whether the rule fired and both
+  produce correct-looking output. Key it to something on the shared surface.
+- **Time.** A condition read from a growing file carries a timestamp whether or
+  not anyone wrote one down. Ask what happens to a record written before the
+  condition flipped.
+- **Half a pair.** Enumerating the dividend and leaving the divisor a bare
+  number. The half you did not name is where the miss hides, because a miss
+  cannot appear in a list you never wrote.
+- **A qualification that does not travel.** A key meaningful only once qualified
+  needs qualifying everywhere it is used, not only where it is cited. This is
+  the one that survives review, because the sentence stating it correctly is
+  usually in the same document.
+
+One default covers the cases this list does not: **fail toward the loud one.** A
+false "needs attention" costs a line. A false "nothing here" costs the thing the
+rule existed to prevent.
+
 ## Watch script
 
 **This is PowerShell and it must be executed by PowerShell.** Pasted into a Bash
