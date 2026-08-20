@@ -348,9 +348,7 @@ Two cases require you to reply to an entry addressed to someone else:
   may land after that -- so a session that stops watching at DONE reports to its
   user from a file it never finished reading. This is the same requirement as
   "re-read to the end before you write anything durable", arriving at the one
-  moment the old wording had already told you to stop watching. Observed: a
-  session posted DONE, kept watching anyway on its own judgement, and was right
-  to -- the close-out did assign it positions it intended to report.
+  moment the old wording had already told you to stop watching.
 - When you have nothing further, append `### [<N>] | from: <name> | DONE`, and
   **add one line naming the evidence that leaves the room with you** -- the
   host you can reach, the file only you have read, the wrapper only your repo
@@ -366,11 +364,9 @@ Two cases require you to reply to an entry addressed to someone else:
   have opposite consequences. The trigger is what the file says rather than how
   you judge the scope: a condition each seat evaluates privately is one two seats
   will evaluate differently. A bridge naming one repo owes none of this. **The
-  trigger over-fires on purpose** -- a bridge that merely mentions a second repo
-  costs every seat one line saying nothing. Keep that asymmetry when it is
-  challenged as noise: a false trigger costs a line, a missed one costs the thing
-  this rule exists to prevent, and "it fired when it did not need to" is the
-  argument that turns an observable condition back into a private judgement.
+  trigger over-fires on purpose**, and keep that asymmetry when it is challenged
+  as noise: "it fired when it did not need to" is the argument that turns an
+  observable condition back into a private judgement.
   **Order, not dates.** "B is inert until A lands" is a property of the work and
   both ends can check it; "I will ship Thursday" is a promise about a person
   nobody asked, made by a session that will not exist by Thursday. A date belongs
@@ -386,13 +382,9 @@ Two cases require you to reply to an entry addressed to someone else:
   where you will look; a constraint has to reach a seat that does not read your
   repo. The carrying session writes it in **its own** repo, and tells the
   constrained session **in channel, in its DONE, by entry number.** Do not
-  discharge it by writing into another participant's repo: observed, a seat
-  satisfied "somewhere durable" by writing into a peer's queue file mid-run
-  while that peer was editing the same file, and it stayed clean only because
-  that repo happened to carry its own rule for foreign edits and that peer
-  happened to check before committing. A trio whose repos share no such file has
-  no defined durability channel at all, and the protocol should not depend on
-  one existing.
+  discharge it by writing into another participant's repo -- that has been tried,
+  and stayed clean only by accident. A trio whose repos share no common file has
+  no durability channel at all, and the protocol must not depend on one existing.
 - **DONE carries only what cannot be reconstructed from this file by a later
   reader**: evidence only you held, commitments only you can make. That is the
   whole budget. Every addition to DONE has been defensible on its own and nothing
@@ -425,15 +417,11 @@ Two cases require you to reply to an entry addressed to someone else:
   file has gone quiet. If two DONE entries disagree about which side goes first,
   that is an open item to report, not a discrepancy to smooth over.
   **Why the closer rather than the creator, who posts the close-out:** the
-  close-out is written when the round cap fires, which is BEFORE the DONE
-  entries exist. Observed on the first run under the carry rule -- a close-out
-  composed with zero DONEs on file. The one artifact with an assigned owner was
-  by construction incapable of carrying the running order, so nothing carried
-  it: all three seats produced `carrying:`, `waits on:` and the inversion line,
-  the fields did their job, and the user was handed three DONE entries to
-  reconcile by hand. STOP is the only event in this protocol defined by the
-  inputs existing -- every JOINED session has DONE -- so the duty and the
-  evidence become available at the same instant.
+  close-out is written when the round cap fires, which is BEFORE any DONE
+  exists, so the one artifact with an assigned owner was by construction
+  incapable of carrying the order. STOP is the only event in this protocol
+  defined by its inputs existing -- every JOINED session has DONE -- so the duty
+  and the evidence arrive at the same instant.
   **On the close path that does not wait for everyone** -- cap fired, file
   quiet, seats still un-DONE -- you owe the order assembled from what is on
   file, **plus the seats whose DONE is missing and what that leaves unknown.**
@@ -567,11 +555,9 @@ the live participants.** Not "I make it 5 rounds" but "[003] [004] [006] [007]
 [009] -- 5 counted, live: west + kb -- 2.5 rounds". Both halves are already on
 your screen from the grep, and they cost one line.
 
-Two bare counts that disagree tell you only *that* you disagree, and the cheapest
-resolution is for one seat to defer. Two lists tell you **which entry** one of you
-never saw, which is a different fact and usually the more serious one. A count is
-a summary of a read; the IDs are the read. This is the same reason the close-out
-cites the entry a position came from rather than paraphrasing it.
+Two bare counts that disagree tell you only *that* you disagree; two lists tell
+you **which entry** one of you never saw, which is the more serious fact. A count
+is a summary of a read; the IDs are the read.
 
 **Name the divisor too, for the same reason.** Counted entries exclude JOINED and
 DONE by definition, so a missed one of those can never appear in the ID list --
@@ -579,11 +565,9 @@ and it is exactly the miss that changes the divisor. Two seats diff identical ID
 lists, agree, and both compute the wrong number of rounds. Live participants are
 names, not IDs, and there are only ever a handful.
 
-The rule is paid for: a run recovered a silently missed entry only because both
-seats happened to enumerate while disagreeing about the round number, and one
-list held an ID the other had never seen. Nothing else in the run would have
-caught it, and the seat that was about to write the close-out was the seat with
-the short list.
+The rule is paid for: a run recovered a silently missed entry only because two
+seats enumerated while disagreeing, and the seat about to write the close-out
+was the one holding the short list.
 
 **At 5 rounds, wrap up.** The cap scales with participants deliberately: a flat
 entry count breaks as the bridge grows, because five sessions spend five entries
@@ -600,10 +584,10 @@ not paying attention. If you counted the rounds, the close-out is yours to post
 unless the creator is visibly mid-reply.
 
 The session that created the bridge posts the close-out **and also prints it to
-its own user**, who agrees, disagrees, or amends. The creator is nearly always
-the session the user is sitting in -- they ran `/bridge` there -- which is why
-this needs no observer window and no separate answer channel. If the creator is
-not live, whichever session notices the cap does it instead.
+its own user**, who agrees, disagrees, or amends -- the creator is nearly always
+the session the user is sitting in, which is why this needs no observer window
+or separate answer channel. If the creator is not live, whichever session
+notices the cap does it instead.
 
 Where the close-out attributes a position to another session, **cite the entry
 number it came from**. A creator summarising four other sessions from impression
