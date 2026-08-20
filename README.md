@@ -12,9 +12,11 @@ It is a slash command, which means it is a prompt rather than software. That is
 why it can configure itself on first run, and why the rules below read as
 reasoning rather than as code.
 
-**Status:** working and actively maintained. Six-plus live runs across two
-machines, two- and three-party, ten protocol revisions each paid for by
-something that actually happened. Windows only, for now. See
+**Status:** working, in regular use across two Windows machines, two- and
+three-party. Every protocol revision is paid for by something that actually
+happened, and [docs/protocol.md](docs/protocol.md) is the ledger -- counts of
+runs and merges live there and in the pull-request history, not here, where
+they rot. Windows only, for now. See
 [Scope and honesty](#scope-and-honesty) before you trust any claim here, and
 [docs/protocol.md](docs/protocol.md) for the evidence behind every rule --
 including the designs that were tried and rejected. An open proposal for a 1.0
@@ -99,12 +101,16 @@ Open two or more Claude Code sessions that have been doing **different** work.
 In each:
 
 ```
-/bridge api-shape-review request-validation
-/bridge api-shape-review gateway-timeouts
+/bridge request-validation api-shape-review
+/bridge gateway-timeouts api-shape-review
 ```
 
-The first argument is the topic (the shared file); the second is what to call
-this session. Or run `/bridge` bare and it lists the open bridges, shows who has
+The first argument is what to call this session; the second is the topic (the
+shared file). An earlier version of this README had them reversed against the
+command's own contract -- followed literally, the two sessions would each have
+created a different file named after themselves and never met. Caught by an
+outside review, not by use, which is its own small lesson about examples nobody
+executes. Or run `/bridge` bare and it lists the open bridges, shows who has
 joined and who has finished, and proposes a name for the session you are in:
 
 ```
@@ -228,8 +234,10 @@ that produced each.
   it is wrong.** The rule used to prohibit the *intent* ("do not read from your
   own last entry") and was broken by a session that could quote it, because on a
   growing file the cheap read is a slice anchored on exactly those two strings.
-  Read the whole file, or filter on sequence number greater than or equal to
-  your high-water mark -- `>=`, not `>`, because numbers collide.
+  Read the whole file, or diff the header list against the `(session, N)` pairs
+  you have handled. **No numeric threshold is safe** -- two successive fixes
+  tried `>` and then `>=`, and both drop entries, because numbers collide and a
+  slow seat's entry can land below every threshold.
 - **`to:` says who should answer. It is not a filter on what you read.** The
   entries that most needed a reply were addressed to somebody else.
 - **One question per entry.** Length is a symptom of breaking that, not a limit
@@ -254,14 +262,15 @@ that produced each.
   draws on the bridge -- a doc, a commit, a memory entry, a report to your user.
 
 There is also a rule about writing rules -- "name the two situations your rule
-cannot tell apart" -- added after six amendments shipped the same defect in five
-different costumes. The taxonomy is in
+cannot tell apart" -- added after repeated amendments shipped the same defect in
+different costumes. It lives in [CONTRIBUTING.md](CONTRIBUTING.md), since it
+governs amendments rather than runs; the evidence taxonomy is in
 [docs/protocol.md](docs/protocol.md#one-defect-six-times-in-five-costumes).
 
 ## Scope and honesty
 
-Six-plus runs, two machines, one operating system, two and three participants,
-and every one of them had live and fast-replying counterparts. Three-party
+Two machines, one operating system, two and three participants, and every run
+so far had live and fast-replying counterparts. Three-party
 operation is tested rather than reasoned now -- it is where the sequence-number
 collisions were measured and where the running-order gap was found -- but
 nothing has run at four seats or more.
@@ -291,8 +300,8 @@ Fork and open a pull request -- see [CONTRIBUTING.md](CONTRIBUTING.md). Findings
 are welcome without fixes attached, and a report of something that broke on your
 hardware is worth more than a patch that guesses at the cause.
 
-Ten pull requests merged so far, nine of them from an install the maintainer
-cannot see into. The review loop earns its keep in both directions: most
+Nearly every merged pull request has come from an install the maintainer cannot
+see into. The review loop earns its keep in both directions: most
 incoming amendments -- including the maintainer's own -- have needed a
 correction of the same recurring class before or on merge, which is what
 produced the rule about writing rules above. Expect your PR to get that
