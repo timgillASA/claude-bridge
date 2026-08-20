@@ -296,7 +296,15 @@ detectable.
      your own last entry number, it is wrong.** Every anchor a session reaches
      for naturally -- its own name, its own high-water mark -- is the forbidden
      one, because those are the two strings it knows without looking. Filter on
-     sequence number greater than your high-water mark, or dump the file whole.
+     sequence number greater than **or equal to** your high-water mark, or dump
+     the file whole. Not strictly greater: numbers collide, at a quarter to a
+     third of them on a three-party run, so `> N` silently drops a peer's entry
+     that shares your boundary number -- the same miss this rule exists to
+     prevent, reintroduced by the fix for it. Re-reading your own boundary entry
+     costs a glance; missing the one beside it cost this protocol three entries
+     and the definition its central decision turned on. The number is a coverage
+     key only once qualified by session, and that qualification has to survive
+     into the filter, not just into the citation.
      An anchored slice that spans to the end of the file looks like a complete
      read in the command, in the output, and in the reasoning about it.
 4. Repeat from step 1.
