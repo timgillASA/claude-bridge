@@ -1,6 +1,26 @@
 # Review: what this tool is becoming, and a proposal for 1.0
 
-**Status: proposal, not adopted.** Written 2026-08-19 after the 0.10.0 merges, at
+> **DISPOSITION 2026-08-23.** The "optional hardening" tripwire fired before
+> the main proposal was picked up: native peer messaging was re-checked on the
+> Windows CLI and **works** -- `ListAgents` saw five independently started
+> terminal sessions, a message woke an idle one, and the reply woke the sender
+> with no polling. The free-wait property this design existed to defend is now
+> native, plus wake-on-idle, which the bridge never had. Consequences, in the
+> order this document ranks the layers: the **transport** enters the planned
+> retirement this review called for -- not archived yet, because native
+> messaging has no shared transcript and no broadcast, which is everything the
+> ritual layer stands on. The **script proposal (section 1) is on hold**, not
+> adopted: an evening of verbs around a transport in retirement is the wrong
+> spend, and the one script-layer defect found since (the watch self-baselining
+> after the read-to-watch gap) shipped as a one-line contract fix in 0.11.1
+> instead. The **growth freeze (section 2) stands** and costs nothing. The
+> open question 1.0 now turns on is whether the ritual ports to a shared file
+> that sessions write via native messaging coordination, or stays on the watch
+> loop until a run actually needs it -- decided at the next real use, not
+> before, per this document's own timing note.
+
+**Status: proposal, not adopted; transport disposition above, 2026-08-23.**
+Written 2026-08-19 after the 0.10.0 merges, at
 the maintainer's request, to be picked up when time permits. Nothing here changes
 behavior until it is decided on. The trigger was a failed trim: a plan to cut
 `commands/bridge.md` from 575 lines to ~430 assumed the growth was narrative, and

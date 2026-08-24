@@ -31,12 +31,32 @@ Claude Code has native cross-session messaging (`ListAgents` / `SendMessage`)
 and Agent Teams. **If those work for you, use them instead.** Check with
 `/list-agents`.
 
-They were not options here: neither is available on the native Windows CLI, and
-Agent Teams is an orchestrator-and-leads model rather than a conversation
-between independently started peer sessions. This bridge is the Windows-safe
-fallback, and it has one property the native path does not advertise -- the wait
-blocks inside a single tool call, so a session that is waiting for a reply
-spends no model turns at all.
+When this project started, neither was available on the native Windows CLI,
+and the bridge's one killer property was that its wait blocks inside a single
+tool call, so a waiting session spends no model turns.
+
+**That founding premise is now false, and this README says so rather than
+quietly outliving it.** Verified 2026-08-23 on the machine this was built on:
+`ListAgents` saw five independently started terminal sessions, a message to an
+idle session woke it, and the reply woke the sender with no polling and no
+watch loop. Native messaging now has the free-wait property, plus one the
+bridge never had -- it wakes an idle session, where the bridge only wakes a
+session already sitting in the watch.
+
+What the native path still does not have is the reason this repo is not
+archived yet:
+
+- **A shared transcript.** Messages are point-to-point and leave no common
+  record. The bridge's append-only file is what makes citations, close-outs,
+  and audits possible -- and it is what lets the user watch the whole
+  conversation live in one window and post into it.
+- **Broadcast.** Three or more seats over point-to-point means every entry is
+  N-1 sends and no two seats provably saw the same record.
+
+So the transport layer of this project is in planned retirement, which its own
+1.0 review anticipated; the review ritual built on top of it is the durable
+part. See the disposition note in
+[docs/2026-08-19-review-what-this-is-becoming.md](docs/2026-08-19-review-what-this-is-becoming.md).
 
 ## Install
 
