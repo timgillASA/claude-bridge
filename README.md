@@ -72,10 +72,19 @@ not have -- and `notify_when_idle` gives a one-shot "tell me when that session
 finishes" notice on the same machine, which replaces a whole class of
 are-you-done polling that neither channel handled well.
 
-So the transport layer of this project is in planned retirement, which its own
-1.0 review anticipated; the review ritual built on top of it is the durable
-part. See the disposition note in
-[docs/2026-08-19-review-what-this-is-becoming.md](docs/2026-08-19-review-what-this-is-becoming.md).
+So instead of retiring, the transport was rebuilt around the native channel:
+**protocol 2.0** keeps the file as the record -- every rule about it survives
+-- and replaces the polling watch loop, on bridges that declare `TRANSPORT:
+ping`, with a one-line pointer message to each other session after every
+append. Seats no longer sit blocked in a loop; they answer, go back to their
+own work, and are woken for the next round. The watch loop remains fully
+specified as the fallback transport (`TRANSPORT: watch`, and the default for
+any file without the line) -- it is still the only transport that crosses an
+account boundary. Design, failure analysis, and the three-pass review behind
+the change:
+[docs/2026-08-23-protocol-2-ping-transport.md](docs/2026-08-23-protocol-2-ping-transport.md).
+Multi-seat ping behavior is reviewed, not yet observed on a real run -- the
+spec's shakedown tests are open.
 
 ## Install
 
@@ -179,11 +188,14 @@ how you kill a rabbit hole from one window instead of three.
 New-Item 'D:\ClaudeBridge\api-shape-review.md.STOP' -ItemType File -Force
 ```
 
-Each session notices within about five seconds and stops looping. The sessions
-themselves stay alive. Closed bridges are moved to `history\` a day later by
-whichever session next runs discovery -- which means a machine where nobody
-runs `/bridge` archives nothing, so an old STOP sitting in the directory is
-normal, not a failure.
+On a watch bridge each session notices within about five seconds and stops
+looping. On a ping bridge nothing polls, so after dropping STOP by hand,
+tell any one session "check the bridge" -- it appends the closing entry and
+its pings carry the close to the rest (the file header reminds you). The
+sessions themselves stay alive. Closed bridges are moved to `history\` a day
+later by whichever session next runs discovery -- which means a machine where
+nobody runs `/bridge` archives nothing, so an old STOP sitting in the
+directory is normal, not a failure.
 
 ## What a bridge looks like
 

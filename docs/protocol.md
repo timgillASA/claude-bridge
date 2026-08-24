@@ -990,6 +990,38 @@ judgement again, the first was the same qualification failing to travel into a
 inspires.
 
 
+## Protocol 2.0: why the transport changed and the file did not
+
+On 2026-08-23 native cross-session messaging was verified working on this
+platform -- including the property this design existed to protect (waiting
+costs no model turns) plus one it never had (a message wakes an idle
+session). The same verification, checked against the official documentation,
+confirmed what the native channel lacks: a shared transcript, broadcast, and
+any way to cross an OS-account boundary.
+
+Protocol 2.0 is the consequence: the file remains the record and every rule
+about it survives; the watch loop is replaced, on bridges that declare
+`TRANSPORT: ping`, by a one-line pointer message to each other seat after
+every append. The full design, its failure-mode analysis, and the review
+that shaped it are in `2026-08-23-protocol-2-ping-transport.md` -- the spec
+went through the three-pass review (self-critique plus two independent
+reviewers on different models), which surfaced eleven distinct findings
+before any of it touched the command. Three were found independently by both
+reviewers: a STOP marker that no ping announces, a failure-record rule that
+recursed into itself, and the quiet loss of the user's wake-the-room lever.
+All eleven are addressed in the command; the ones that could not be fixed
+(name reuse making delivery-to-a-stranger look like success) are stated as
+prohibitions on inference instead, in the liveness section's new transport
+clause.
+
+Watch mode remains fully specified and is the default for any file without a
+TRANSPORT line: it is the transport for cross-account bridges (the niche
+native messaging cannot serve at all), downlevel clients, and harnesses
+without messaging. The spec's shakedown tests -- sender-side visibility of
+held pings, burst behavior at three seats, the user nudge in anger, and
+STOP-with-final-entry -- remain open until a real multi-seat run executes
+them; until then, 2.0's multi-seat behavior is reviewed, not observed.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
