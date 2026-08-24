@@ -27,11 +27,13 @@
 > against exactly the fan-out a multi-party ritual would generate, so porting
 > the ritual onto SendMessage is worse than it first looked. And inbound
 > delivery is **held for user approval when the seats' permission-mode classes
-> differ**, expiring dropped after five minutes by default -- so the verified
-> round-trip may have included a human click on the receiving side (the peer
-> ran bypass mode; unconfirmed whether a hold dialog fired). Free-wait is
-> confirmed either way; frictionless delivery across a mixed-mode fleet is
-> not.
+> differ**, expiring dropped after five minutes by default. On the verified
+> round-trip this did not bite: the operator confirms no dialog fired on the
+> receiving side -- delivery was fully automatic, with no `crossSessionInbound`
+> setting present, so the default class rules evaluated both seats as
+> compatible. Free-wait and frictionless delivery both confirmed on this
+> fleet; the hold behavior remains a documented friction to expect on a fleet
+> whose seats mix permission-mode classes, not something observed here.
 
 **Status: proposal, not adopted; transport disposition above, 2026-08-23.**
 Written 2026-08-19 after the 0.10.0 merges, at
