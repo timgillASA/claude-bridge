@@ -8,8 +8,13 @@ unique ones; all accepted, two with pushback recorded in section 12. One
 routing deviation from section 13 as written: the command rewrite went to
 main under maintainer custom rather than waiting on the cross-machine PR
 loop -- the three-pass review supplied the independent scrutiny, and the
-fork loop reviews post-merge as it has before. The shakedown tests in
-section 13 remain open until a real multi-seat run executes them.**
+fork loop reviews post-merge as it has before. Shakedown: a four-seat run
+the same day executed tests 2-4 (burst behavior, user nudge, ordered close
+-- all passed, with post-STOP propagation confirmed independently) and
+caught one defect the review missed (the user Post: line, fixed 0.12.2);
+test 1 (held-ping sender visibility) remains open -- no hold occurred on a
+class-compatible fleet. Run evidence: docs/protocol.md, "The first
+ping-mode run".**
 
 Written 2026-08-23, the same day native cross-session messaging was verified
 working on the Windows CLI (see the disposition note in

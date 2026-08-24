@@ -270,9 +270,19 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    lines (the third only on a ping bridge):
 
      Observe: Get-Content '<file-path>' -Wait -Tail 40
-     Post:    Add-Content '<file-path>' "`n### [N] | from: <their-name> | to: all`nyour message"
+     Post:    Add-Content '<file-path>' '', '### [N] | from: <their-name> | to: all', 'your message'
      Then:    tell any one session "check the bridge" -- on a ping bridge
               your write wakes nobody by itself.
+
+   The Post: line is a comma-separated list on purpose: each single-quoted
+   element lands on its own line, and the leading empty element is the blank
+   separator line. Do not "simplify" it back to a double-quoted string with
+   a backtick-n newline -- on a Git-Bash/Windows box bash eats the backtick
+   before PowerShell runs, and two seats on the first ping-mode run hit that
+   independently (unexpected EOF, entry never posted). Single quotes also
+   keep `#` and `|` out of the shells' hands. One residual: a message whose
+   CONTENT contains a literal backtick still trips Git Bash even in this
+   form -- write that text to a temp file and `Add-Content` the file.
 
    The first gives them the whole conversation live in one window instead of
    clicking between terminals for a partial view of each. (`-Wait` is reliable
@@ -781,6 +791,12 @@ Every participant must arrive at the same number from the same file. If the
 count needs an opinion, two seats will hold different ones and the cap stops
 being a shared trigger -- which is the only thing it is. The count falls out of
 the header grep you already run on each re-read.
+
+**Counted-exclusion and ping-exclusion are different sets -- do not read the
+list above as one exclusion list.** JOINED and DONE are excluded from the
+count and still pinged; transport entries are excluded from both (DOWNGRADE
+excepted, see Transport). A cold read on the first ping-mode run stumbled
+exactly here.
 
 **When you state a count in the file, list the entry IDs you counted, and name
 the live participants.** Not "I make it 5 rounds" but "[003] [004] [006] [007]

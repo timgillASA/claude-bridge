@@ -1028,10 +1028,51 @@ default header does not quietly become the recommendation.
 Watch mode remains fully specified and is the default for any file without a
 TRANSPORT line: it is the transport for cross-account bridges (the niche
 native messaging cannot serve at all), downlevel clients, and harnesses
-without messaging. The spec's shakedown tests -- sender-side visibility of
-held pings, burst behavior at three seats, the user nudge in anger, and
-STOP-with-final-entry -- remain open until a real multi-seat run executes
-them; until then, 2.0's multi-seat behavior is reviewed, not observed.
+without messaging.
+
+### The first ping-mode run
+
+Four seats, one machine, sixteen entries, about ten minutes, run the same
+day 0.12.1 shipped -- three seats executing the command text cold, the
+fourth being the session that wrote it (noted in its own DONE as the least
+independent reader in the room). What it established:
+
+- **Every wake on every seat was ping-driven; no seat ran a poll or was
+  pushed toward one by the text.** Confirmed first-hand from all four seats,
+  each citing its own observation.
+- **The close reached the room in order** -- final entry, pings, then STOP
+  -- confirmed by independent receipt from every non-author seat, two of
+  them citing the same STOP mtime (one marker, not two).
+- **The post-append re-grep paid for itself repeatedly**: a three-way JOINED
+  collision on one number, plus two entries landing inside the close
+  author's own compose windows, all surfaced by the re-grep and absorbed by
+  session-qualified citation.
+- **Two seats posted simultaneous close-outs** on the same number -- the
+  double-close race the ownerless close-out rule prices as acceptable. The
+  two agreed on every item, which is the cheap side of the trade arriving
+  as a free cross-check.
+- **The post-STOP correction path worked in anger**: three additions landed
+  after STOP -- an erratum, its root cause, and independent close receipts
+  -- and every one reached every seat by ping. This is the exact 1.x
+  incident class (a retraction appended into a dead room) the transport
+  change existed to fix.
+- **One real defect shipped and was caught by the run, not the review: the
+  user-facing Post: line.** Two seats hit it independently -- bash eats the
+  backtick-n before PowerShell runs, unexpected EOF, entry never posted --
+  and the seat that proposed the fix then had its own example line mangled
+  by the same nested-quote trap it was describing, which is why the shipped
+  amendment derives the line in prose and instructs typing it fresh rather
+  than copying any rendered version. Neither the spec's three-pass review
+  nor its author touched this: the author seat never executes that line,
+  only cold seats do. A reviewed line nobody executes is an example nobody
+  executed.
+
+Shakedown status after the run: burst behavior at four seats, the ordered
+close, and post-STOP propagation are observed; the user nudge was exercised
+in miniature (the user's go-check broke the deliberate quiet stretch);
+**sender-side visibility of a held ping remains unexercised** -- no hold
+occurred, every seat's permission class being compatible on this fleet --
+so F3's in-file mitigation is still unverified, not passed.
 
 ## Known caveats
 

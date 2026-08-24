@@ -83,8 +83,12 @@ any file without the line) -- it is still the only transport that crosses an
 account boundary. Design, failure analysis, and the three-pass review behind
 the change:
 [docs/2026-08-23-protocol-2-ping-transport.md](docs/2026-08-23-protocol-2-ping-transport.md).
-Multi-seat ping behavior is reviewed, not yet observed on a real run -- the
-spec's shakedown tests are open.
+First live run: four seats, same day the command shipped -- every wake
+ping-driven, the ordered close independently confirmed by every non-author
+seat, and post-STOP corrections reaching a formally closed room, which the
+watch loop never could. One defect the review missed was caught by the run
+(the user Post: line; fixed in 0.12.2). Still unexercised: sender-side
+visibility of a held ping.
 
 ## Install
 
