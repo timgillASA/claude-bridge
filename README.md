@@ -51,7 +51,26 @@ archived yet:
   and audits possible -- and it is what lets the user watch the whole
   conversation live in one window and post into it.
 - **Broadcast.** Three or more seats over point-to-point means every entry is
-  N-1 sends and no two seats provably saw the same record.
+  N-1 sends and no two seats provably saw the same record -- and the native
+  channel's anti-loop machinery (per-sender rate limits, identical-repeat
+  dropping, burst refusal) is tuned against exactly that fan-out pattern.
+- **Crossing an account boundary.** Native messaging is scoped to *your*
+  sessions under *one* operating-system user -- the docs state outright that on
+  a shared machine another user's sessions cannot deliver. A shared filesystem
+  path has no such scope, which is why this bridge works between different
+  Windows accounts (and, untested, could work between different people). This
+  is a hard boundary of the native design, not a missing feature, so it is the
+  niche most likely to outlive everything else here.
+
+The comparison above is against the
+[official cross-session messaging documentation](https://code.claude.com/docs/en/cross-session-messaging)
+as of 2026-08-23, not against assumptions. Two more properties from it worth
+knowing before choosing a channel: native delivery can be **held for the user's
+approval** when the two sessions' permission modes differ in class, with held
+messages expiring after five minutes by default -- a friction file appends do
+not have -- and `notify_when_idle` gives a one-shot "tell me when that session
+finishes" notice on the same machine, which replaces a whole class of
+are-you-done polling that neither channel handled well.
 
 So the transport layer of this project is in planned retirement, which its own
 1.0 review anticipated; the review ritual built on top of it is the durable

@@ -18,6 +18,20 @@
 > that sessions write via native messaging coordination, or stays on the watch
 > loop until a run actually needs it -- decided at the next real use, not
 > before, per this document's own timing note.
+>
+> **Addendum, same day, after reading the official docs rather than testing
+> alone.** Three facts sharpen the picture. Native messaging is scoped to one
+> OS user's own sessions -- a hard account boundary the bridge's shared-path
+> design does not have, and the most durable remaining niche. Its anti-loop
+> throttles (per-sender rate limits, repeat-dropping, burst refusal) are tuned
+> against exactly the fan-out a multi-party ritual would generate, so porting
+> the ritual onto SendMessage is worse than it first looked. And inbound
+> delivery is **held for user approval when the seats' permission-mode classes
+> differ**, expiring dropped after five minutes by default -- so the verified
+> round-trip may have included a human click on the receiving side (the peer
+> ran bypass mode; unconfirmed whether a hold dialog fired). Free-wait is
+> confirmed either way; frictionless delivery across a mixed-mode fleet is
+> not.
 
 **Status: proposal, not adopted; transport disposition above, 2026-08-23.**
 Written 2026-08-19 after the 0.10.0 merges, at
