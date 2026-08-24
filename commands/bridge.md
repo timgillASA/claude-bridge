@@ -74,9 +74,21 @@ else, and do not guess -- an unattended wrong guess joins the wrong file.
 
 ## Naming this session
 
-When the name is not given, propose one and let the user accept it by saying
-yes or just picking a bridge number. Do not make them compose it, and do not
-adopt it silently either -- show it, then proceed on confirmation.
+**On a ping bridge, the default session name IS your address** -- the name
+this session already answers to in `ListAgents`. One name instead of two:
+`from:` and `address:` cannot disagree, the name is guaranteed unique among
+live sessions (Claude Code renames collisions itself), and no one composes
+anything. Show it and proceed on confirmation like any proposal. Fall back to
+the derived-name flow below only when the address says nothing about the work
+(a generic name like `claude-2a` from a session started in a config
+directory) -- then the JOINED entry carries both, descriptive name in `from:`
+and the address in `address:`.
+
+On a watch bridge there is no address, so the derived-name flow below is the
+whole rule. When the name is not given, propose one and let the user accept
+it by saying yes or just picking a bridge number. Do not make them compose
+it, and do not adopt it silently either -- show it, then proceed on
+confirmation.
 
 Derive the proposal from **what this session has actually been working on**,
 in this order of preference:
@@ -159,6 +171,11 @@ header next to the AGENDA:
   will never send one. Absence-means-watch is safe in both directions: the
   worst case is a creator who forgets the line and gets watch behavior --
   degraded, not broken. Ping mode is always a choice somebody wrote down.
+- **When creating a bridge, propose ping unless a seat is expected that
+  cannot run it** -- a different OS account, a downlevel client, a harness
+  without messaging. The user does not have to remember to ask for ping;
+  the creator writes the line after confirming, same as the session name.
+  Absence-means-watch is the safety net, not the recommendation.
 - **Ping** replaces the watch loop with a one-line `SendMessage` to each
   other seat after every append (see "Ping mode"). It requires every seat to
   be a Claude Code session on this machine, under this OS user, v2.1.239 or
@@ -273,7 +290,8 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    now if your harness defers tool schemas -- a load failure at join is
    recoverable out loud; one at first ping silently costs a wake. Your
    address is this session's own name, the first line of `ListAgents`. Look
-   it up now; do not recall it from earlier.
+   it up now; do not recall it from earlier. It is also your default session
+   name (see "Naming this session").
 
 4. **Append a JOINED entry.** One line, no body -- with your address on a
    ping bridge, without it on a watch bridge:

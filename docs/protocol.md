@@ -1014,6 +1014,17 @@ All eleven are addressed in the command; the ones that could not be fixed
 prohibitions on inference instead, in the liveness section's new transport
 clause.
 
+Two follow-on amendments landed the same day, both operator-observed rather
+than run-incident: session naming on ping bridges defaults to the address
+itself. Earlier runs showed naming friction and ambiguity -- two names per
+seat is a mapping that can drift, and hand-composed names collided or said
+nothing -- while the address is unique among live sessions by construction
+and, on repo-rooted sessions, already says what the seat is. The
+evidence-descriptive naming flow survives as the watch-mode rule and the
+ping-mode fallback for uninformative addresses. And bridge creation now
+proposes ping unless a non-qualifying seat is expected, so the safer-by-
+default header does not quietly become the recommendation.
+
 Watch mode remains fully specified and is the default for any file without a
 TRANSPORT line: it is the transport for cross-account bridges (the niche
 native messaging cannot serve at all), downlevel clients, and harnesses
