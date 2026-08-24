@@ -712,13 +712,28 @@ so it is not a failure. **The STOP file is scoped to the bridge file, not the
 directory** -- a directory-scoped STOP left behind by an earlier bridge kills
 today's on its first poll, silently and correctly per the protocol.
 
+**The watch's baseline is the timestamp you captured at your read, not the
+timestamp when the watch starts.** Those are different moments, and an entry
+that lands in the gap between them is invisible to a watch that baselines
+itself -- the file compares "unchanged" against a baseline taken after the
+write, and in a two-party bridge that is a peer waiting indefinitely on a reply
+to an entry that was delivered. So capture the ticks **before** you read the
+file:
+
+    (Get-Item '<file-path>').LastWriteTime.Ticks
+
+Stat first, then read, in that order: a write landing between the stat and your
+read is covered by the read and costs one spurious wake, while the other order
+leaves a write invisible to both. Substitute the captured value for
+<ticks-from-your-read> below. The failure direction is deliberate -- a stale
+baseline fires CHANGED on the first poll and you re-read, never the reverse.
+
     $stop = "<file-path>.STOP"
-    $last = $null
+    $last = <ticks-from-your-read>
     while ($true) {
       if (Test-Path $stop) { Write-Output "STOPPED"; break }
-      $cur = (Get-Item "<file-path>" -ErrorAction SilentlyContinue).LastWriteTime
-      if ($cur -ne $last -and $last -ne $null) { Write-Output "CHANGED"; break }
-      $last = $cur
+      $cur = (Get-Item "<file-path>" -ErrorAction SilentlyContinue).LastWriteTime.Ticks
+      if ($cur -ne $last) { Write-Output "CHANGED"; break }
       Start-Sleep -Seconds 5
     }
 

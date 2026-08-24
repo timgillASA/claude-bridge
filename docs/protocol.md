@@ -493,6 +493,52 @@ in harnesses nobody here has seen: **name the capability, never the tool.** A
 tool name is an assumption about somebody else's environment, and it fails
 silently at the worst moment, which is the first one.
 
+## The watch baselined itself after the gap it was guarding (reasoned, not observed)
+
+Found by review of the script, not by a run, and marked accordingly.
+
+For every version through 0.11.0 the watch script started with `$last = $null`
+and adopted the file's current timestamp on its first iteration. So the baseline
+was taken when the *watch* started, while the session's knowledge of the file
+dates from when it *read* -- and those are different moments with model work in
+between (deciding whether to reply, composing, or concluding no reply is owed).
+
+An entry landing in that gap is invisible. The watch compares the file against a
+baseline taken after the write, reports it unchanged, and sleeps. The session
+that appends before re-entering the watch is safe by accident -- its own append
+wakes the peer, and the peer's next entry wakes it. The dangerous path is the
+session that re-reads, decides **no reply is needed**, and re-enters the watch:
+a peer's entry landing between its read and the watch's first stat wakes nobody,
+and in a two-party bridge that is a peer waiting indefinitely on a reply to an
+entry that was, by every observable measure, delivered. Nothing errors. The
+failure presents as a quiet counterpart, which the liveness section says is
+indistinguishable from a thinking one.
+
+This is the wait-side twin of a read-side gap already recorded above -- the
+`[4]` that landed between a wake firing and the read completing, caught there by
+reading the whole file. The read rule cannot catch this one, because the session
+is not reading; it is waiting.
+
+The two situations the old script collapsed, per the contributing rule: a file
+unchanged since your read, and a file that changed between your read and the
+watch starting. Opposite consequences, identical baseline.
+
+The fix moves the baseline to the only moment that means anything: the session
+captures the file's `LastWriteTime.Ticks` immediately **before** reading, and
+passes it into the script. Stat-then-read, in that order -- a write landing
+between the stat and the read is covered by the read and costs one spurious
+CHANGED, while read-then-stat leaves a write invisible to both. The script's
+first poll then compares against the read-time baseline and fires immediately if
+anything landed since. The failure direction is the safe one everywhere: stale
+or mismatched baselines produce an extra wake and an extra read, never a silent
+sleep.
+
+Worth noting against the layer taxonomy in the 1.0 review: this is the first
+defect found in the script layer, whose record was previously clean. It does not
+overturn the taxonomy -- the fix is a script fix, one line of contract change,
+and it was findable by inspection precisely because the layer is deterministic.
+A prose rule with this defect would have needed a run to fail first.
+
 ## DONE ended the wrong thing
 
 A two-party run, the first conducted under the identity rules rather than the
