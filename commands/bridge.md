@@ -360,6 +360,14 @@ all of them regardless. It breaks the moment anyone refers to one -- which is
 exactly what a close-out does, and accurate attribution is its whole job.
 **Cite as `[<session> <N>]`**, never bare `[<N>]`.
 
+**Do not renumber a drafted entry after a re-read.** A collided N is expected
+-- at four seats collisions were the norm on every measured run, not the edge
+case -- and session-qualified citation absorbs every one of them. A seat on a
+fast bridge composed its entry four times, renumbering after each wake, and
+none of that work was owed: the re-read's job is to catch new CONTENT (is my
+entry still additive? was my question just answered?), never to keep N
+unique, which nothing requires.
+
 **One question per entry.** This is the rule; length is a symptom of breaking
 it. Aim at fifteen lines and treat overrunning as a prompt to check whether you
 are asking two things at once, not as a violation in itself. The close-out is
@@ -754,9 +762,12 @@ participant can see from inside a single seat. Once runs stop producing new
 findings, drop the step -- a recap written because the rules say so, about a run
 where nothing happened, is the same failure as an entry written to fill a turn.
 
-Write it to `BRIDGE_DIR` as `<topic>-recap-<your-repo>.md`, not into your own
-repo and not into anyone else's. Leave it uncommitted and tell your user the
-path.
+Write it to `BRIDGE_DIR` as `<topic>-recap-<your-seat-name>.md`, not into
+your own repo and not into anyone else's. Leave it uncommitted and tell your
+user the path. The seat name, not the repo name: the seat name is the
+citation identity everything in the file uses, and on a ping bridge it is
+the address too -- one run's recaps split between the two conventions and
+had to be matched up by hand.
 
 Every seat writes its own and **they are not consolidated.** The disagreements
 are the payload: two honest recaps of one run reported the round cap firing "at
@@ -764,7 +775,8 @@ the natural end" and "having no teeth", from different vantages. A single
 close-out cannot produce that, because it is written by one participant about
 everybody.
 
-- **Name your repo in the filename and in the first line.** Recaps named by
+- **Name your seat in the filename and in the first line** (plus your repo in
+  the first line, for the human matching recaps to work). Recaps named by
   topic alone cannot be told apart afterwards.
 - **Re-read the whole file to the end before writing it**, including anything
   appended after STOP. A recap has been written that missed the most serious
@@ -991,6 +1003,13 @@ The mechanical test: **does my next question depend on your answer?** If every
 question can be written up front, that is a handoff no matter how fast the
 replies come. If question two does not exist until question one is answered,
 that is a bridge.
+
+A second filter, per item rather than per conversation: **if one seat could
+answer it alone -- by reading the docs, or by observing its own behavior --
+it is not a bridge item.** An agenda item every seat answers identically is
+corroboration theater; the items that earn the room are the ones needing
+live peers (does the close reach seats the author cannot see) or a mechanism
+claim shot at by different evidence.
 
 **The value is not speed. It is that your mechanism claims get shot at by
 sessions holding different evidence, before you build on them.** Every

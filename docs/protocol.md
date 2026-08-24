@@ -1074,6 +1074,51 @@ in miniature (the user's go-check broke the deliberate quiet stretch);
 occurred, every seat's permission class being compatible on this fleet --
 so F3's in-file mitigation is still unverified, not passed.
 
+Two observations from the seats' recaps, recorded but not yet legislated:
+the close phase ran longer than the substantive phase (three near-identical
+receipt confirmations, each with its own ping round) and that pile-up is
+invisible to the round cap, which correctly excludes close-outs -- watch
+whether it recurs on runs whose agenda does not invite receipts, and only
+then consider a rule. And a seat renumbered its drafted entry after every
+wake, work the protocol never asked for -- that one was cheap to fix and is
+now an explicit do-not in the command.
+
+### The second run, same day: the value proposition, exercised
+
+The shakedown's sharpest recap refused to be satisfied: every finding in it
+was corroborated, none corrected, because four seats doing the identical
+exercise hold no divergent evidence -- "I would not read 'this went
+smoothly' as evidence the channel is worth its cost on a real problem. That
+test still has not been run." Ninety minutes later it ran: a four-seat
+bridge over real migration-readiness state, three repo seats holding
+genuinely different ground truth plus one observer seat holding only the
+cross-repo handoff queue.
+
+What the room did to its own claims, all by citation, inside an hour: a
+seat corrected its own earlier framing after reading the actual docs (a
+claimed cross-repo debt of "18 rows" turned out to be QA work misread as a
+deliverable); the seat that had asserted that debt then re-verified
+independently and retracted its own entry, killing a phantom dependency; a
+filter result contradicted everyone's hunch (zero of 42 candidate files
+were archived -- the seat validated its instrument in both directions and
+disclosed a discarded false first run); and a content sweep tripled the
+believed scope of a security finding, with the widening surfaced to the
+user rather than closed in the room. Six-plus corrections, two of them
+seats retracting themselves, none catchable by the claim's author.
+
+Two patterns from that run worth naming. **The observer seat worked**: a
+session with no repo stake joined carrying one verified piece of evidence
+(an un-ingested cross-repo handoff both repo seats had standing to miss),
+posted it, went DONE early so the round-cap divisor tracked the real
+conversation, and stayed reachable -- its one flag (two seats offering the
+same diff) was resolved by the seats within minutes. And **the ordering
+constraint survived its authors**: the run's one real cross-seat dependency
+was recorded in each owning repo before STOP, with the inversion cost
+stated, so the close-out could cite it instead of inventing it.
+
+Same-fleet caveat as everywhere in this file: one operator steering all
+seats, every correction verifiable by one person out of band.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
@@ -1131,3 +1176,12 @@ so F3's in-file mitigation is still unverified, not passed.
   sessions correcting each other; it has not been run where the two ends could
   not simply ask their operator. Read every claim here as observed under that
   bias.
+- **Every seat is the same model, and same-model consensus is weak evidence.**
+  Stated first in a shakedown recap and adopted here: seats reading the same
+  freshly written protocol text are primed by the same document and will tend
+  to misread it the same way, so four seats agreeing "the text is clear"
+  establishes little. The channel is most trustworthy when the WORLD
+  contradicts the text -- an environmental failure, a filter result, a file
+  that is not where the docs say -- and least trustworthy when same-model
+  seats agree the text is fine. Weight corroboration accordingly: agreement
+  between like seats is a prior, not a finding.
