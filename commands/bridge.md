@@ -617,7 +617,9 @@ Two cases require you to reply to an entry addressed to someone else:
   treat it as proof the bridge is finished.
 - **Whoever first observes the close condition with no close-out on file posts
   the close-out**: what was settled, and what was raised and deliberately left
-  untouched. Silence reads as consensus otherwise. Mark it `no reply needed` --
+  untouched. Silence reads as consensus otherwise. Its header carries the
+  `CLOSE-OUT` entry-type word (format in Round cap -- the count and the stretch
+  anchor both grep for it). Mark the body `no reply needed` --
   it is for whoever reads the file later, and it is exempt from the length
   guidance. No seat is special here: an earlier version assigned this to the
   creator "unless not live", which is a liveness judgment in a protocol that
@@ -787,16 +789,30 @@ everybody.
 Derived from the file on every re-read, so nothing has to be remembered and
 nothing has to be written. Count it when you re-read after a wake.
 
-- **Counted entries** = every entry except JOINED, DONE, close-outs, and
-  transport entries (ADDRESS, DOWNGRADE, delivery-failure records -- see
-  Entry format).
+- **The stretch** = everything after the most recent CLOSE-OUT entry, or the
+  whole file if none exists. This is the cap's reset mechanism, and it is not
+  optional: the count is re-derived from the file on every wake, so without an
+  anchor a bridge the user renews with "carry on" is still over the cap on the
+  very next derivation and fires again -- the user pays one forced stop per
+  wake for a rule that already stopped once. A run did exactly that, three
+  carry-ons in a night for one legitimate cap. The close-out that stopped to
+  ask IS the anchor; counting restarts after it, mechanically.
+- **Counted entries** = every entry in the stretch except JOINED, DONE,
+  CLOSE-OUT, and transport entries (ADDRESS, DOWNGRADE, delivery-failure
+  records -- see Entry format).
   **This is a subtraction, not a judgement.** Count entry headers and subtract
   those kinds by their entry-type words. Do not assess whether an entry was
   weighty, whether it advanced anything, or whether it "really" took a turn --
   an entry that carries
   evidence and asks no question still counts, as does a correction, a
   retraction, and a one-line acknowledgement.
-- **Live participants** = names that posted JOINED and have not posted DONE.
+- **Live participants** = names that posted JOINED, excluding names whose DONE
+  landed BEFORE the current stretch began. A DONE inside the stretch does NOT
+  shrink the divisor until the next stretch. Why: the count is counted entries
+  divided by live seats, so a mid-stretch DONE used to make every remaining
+  seat's derived rounds jump retroactively -- the cap accelerating exactly at
+  the close tail, where DONE entries and receipts pile up. Seen on two runs.
+  A seat that joins mid-stretch widens the divisor immediately, as before.
 - **Rounds** = counted entries divided by live participants.
 
 Every participant must arrive at the same number from the same file. If the
@@ -838,13 +854,23 @@ This is not a runaway catch -- 5 rounds is about the length of a normal bridge,
 so expect it to fire near the natural end of most of them. That is the point.
 The number is a judgement call; the forced stop to ask the user is not.
 
-**Whoever notices the cap, and sees no close-out already on file, posts the
-close-out.** Detecting the condition and handing the remedy to one specific
-session means the cap stops nothing when that session is not paying attention.
-There is no creator privilege and no "unless they look busy" -- those were
-liveness judgments in a protocol that says liveness is not observable. The
-on-file check is the only tiebreaker needed: a doubled close-out costs a
-redundant entry, an unposted one costs the stop.
+**Whoever notices the cap, and sees no close-out already in the current
+stretch, posts the close-out.** Detecting the condition and handing the remedy
+to one specific session means the cap stops nothing when that session is not
+paying attention. There is no creator privilege and no "unless they look
+busy" -- those were liveness judgments in a protocol that says liveness is not
+observable. The on-file check is the only tiebreaker needed: a doubled
+close-out costs a redundant entry, an unposted one costs the stop.
+
+**A close-out carries its entry-type word in the header, like every other
+special entry:**
+
+    ### [<N>] | from: <name> | CLOSE-OUT
+
+The count subtracts close-outs by this token and the stretch anchors on it --
+a close-out recognizable only by reading its body is invisible to both, and
+the refire this section exists to stop comes straight back. The body is still
+marked `no reply needed` (see Ending).
 
 **Print the close-out to your own user as well as the file.** The user is
 usually sitting in the creator's session, but they read the shared file live
@@ -858,9 +884,11 @@ cite, report as not established.
 
 If the user amends and says carry on, append their words **under your own name,
 marked RELAYED, quoting them** -- see "Never post as the user". It is a write
-either way, so it still wakes every other session, and the cap applies again to
-the next stretch. Do not sign it with their name however direct the quote is;
-that is the exact move that produced the impersonation.
+either way, so it still wakes every other session. No seat has to do anything
+to reset the count: the close-out already on file is the new stretch anchor,
+so the next derivation starts from zero after it. Do not sign it with their
+name however direct the quote is; that is the exact move that produced the
+impersonation.
 
 ## User entries
 

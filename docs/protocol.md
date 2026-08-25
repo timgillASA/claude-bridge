@@ -1119,6 +1119,40 @@ stated, so the close-out could cite it instead of inventing it.
 Same-fleet caveat as everywhere in this file: one operator steering all
 seats, every correction verifiable by one person out of band.
 
+## The cap that fired again every time the user renewed it
+
+The third live ping-mode run (four seats, two pairs of twinned repos, a real
+merge-parity agenda) hit the round cap legitimately once -- and then again on
+the next wake, and again, three user carry-ons in one evening for one
+overlong conversation. The defect was not the threshold. The count is derived
+from the whole file on every re-read, deliberately, so that nothing has to be
+remembered -- and that same property meant a "carry on" reset nothing: the
+prose said the cap "applies again to the next stretch" while the arithmetic
+had no stretch. A renewed bridge and an overlong bridge derived to the same
+number. The user paid one forced stop per wake, which converts the cap from a
+checkpoint into a nag and trains the operator to resent it.
+
+The fix kept the derive-everything property and gave the derivation an anchor
+that is itself in the file: the close-out entry. Counting restarts after the
+most recent CLOSE-OUT; a carry-on needs no reset action by any seat because
+the stop that solicited it is the anchor. That forced a second, older gap
+into the open: the count had always subtracted "close-outs by their
+entry-type word" and no close-out entry-type word existed anywhere in the
+protocol -- every seat had been recognizing close-outs by reading their
+bodies, which is exactly the judgement the counting rules prohibit. The
+CLOSE-OUT header token exists because the anchor made the missing definition
+load-bearing instead of latent.
+
+Same amendment, second repair: a mid-stretch DONE no longer shrinks the
+divisor until the next stretch. Rounds are counted entries over live seats,
+so a seat going DONE used to make every remaining seat's derived rounds jump
+retroactively -- the cap accelerating precisely at the close tail, where DONE
+entries pile up. First flagged as observation-only on the shakedown run; it
+recurred on the merge-parity run, which was the agreed bar for legislating
+it. The threshold itself stayed at 5 rounds: with the refire fixed, one
+renewable stop per genuinely long stretch was the intended behavior all
+along, and the run's own consumption per stretch matched it.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
