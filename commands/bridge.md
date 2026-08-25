@@ -890,6 +890,16 @@ so the next derivation starts from zero after it. Do not sign it with their
 name however direct the quote is; that is the exact move that produced the
 impersonation.
 
+**A preemptive lift does not skip the close-out.** Users watch the file live
+and sometimes lift the cap BEFORE any seat has posted a close-out ("carry on
+past the cap, it will be needed" -- seen on a real run). The reset depends on
+a CLOSE-OUT entry existing; a relayed lift with no close-out under it leaves
+the stretch unanchored, and the refire this section exists to stop comes back
+through that door. So the seat relaying the lift posts a brief CLOSE-OUT
+first -- what has settled so far, current-as-of watermark, shorter than a
+final one since nobody is being asked to stop -- and the RELAYED lift lands
+after it. The state-of-play at a renewal point is worth the entry on its own.
+
 ## User entries
 
 The user may post too, under their own name. Those are DIFFERENT in kind from

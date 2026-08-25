@@ -1153,6 +1153,18 @@ it. The threshold itself stayed at 5 rounds: with the refire fixed, one
 renewable stop per genuinely long stretch was the intended behavior all
 along, and the run's own consumption per stretch matched it.
 
+The same run then found the fix's own side door within the hour, live: the
+user, watching the file, lifted the cap BEFORE any seat posted a close-out --
+a relayed "carry on past the cap" with nothing under it to anchor on. An
+anchor defined as "the most recent CLOSE-OUT" resets nothing when the user is
+faster than the seats, which is common, because the user reads every append
+in real time and the seats read on wake. The repair kept the single anchor
+rather than adding a second token: a preemptive lift obliges the relaying
+seat to post a brief close-out first (state of play, watermark, no stop being
+asked), with the RELAYED lift after it. An unmarked second token would have
+refired anyway; a close-out at a renewal point carries value beyond the
+anchor it exists to be.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
