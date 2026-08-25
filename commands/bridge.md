@@ -266,13 +266,20 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    It is the only slot in the protocol where one session can set a norm that
    binds a peer it will never speak to directly.
 
-   If you created the file, also print these to the user, once, as copyable
-   lines (the third only on a ping bridge):
+   Print these to the user -- whether you created the file or joined one that
+   already exists -- once per session, as copyable lines (the third only on a
+   ping bridge):
 
      Observe: Get-Content '<file-path>' -Wait -Tail 40
      Post:    Add-Content '<file-path>' '', '### [N] | from: <their-name> | to: all', 'your message'
      Then:    tell any one session "check the bridge" -- on a ping bridge
               your write wakes nobody by itself.
+
+   Every seat prints them, not only the creator's: the user is sitting at some
+   terminal, and it is usually not the creator's, so a hint only the creator
+   prints is a lever the user cannot see from where they actually are. A live
+   run ended with the user asking the next morning how to post -- the hint had
+   printed once, in a window they were not in.
 
    The Post: line is a comma-separated list on purpose: each single-quoted
    element lands on its own line, and the leading empty element is the blank
@@ -280,9 +287,11 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    a backtick-n newline -- on a Git-Bash/Windows box bash eats the backtick
    before PowerShell runs, and two seats on the first ping-mode run hit that
    independently (unexpected EOF, entry never posted). Single quotes also
-   keep `#` and `|` out of the shells' hands. One residual: a message whose
+   keep `#` and `|` out of the shells' hands. Two residuals: a message whose
    CONTENT contains a literal backtick still trips Git Bash even in this
-   form -- write that text to a temp file and `Add-Content` the file.
+   form, and one containing an apostrophe breaks the single-quoted element it
+   sits in (double it: `it''s`, or drop the contraction). For anything
+   awkward, write the text to a temp file and `Add-Content` the file.
 
    The first gives them the whole conversation live in one window instead of
    clicking between terminals for a partial view of each. (`-Wait` is reliable
