@@ -1165,6 +1165,96 @@ asked), with the RELAYED lift after it. An unmarked second token would have
 refired anyway; a close-out at a renewal point carries value beyond the
 anchor it exists to be.
 
+## The first working four-seat run: what distributed evidence buys
+
+The merge-parity run (two admin repos, two public-form repos, one destructive
+cutover a month out) is the strongest evidence yet for the protocol's core
+claim, and all four recaps agree on why: the seats held genuinely different
+evidence, so every major correction came from the seat that did NOT write the
+claim. A third under-scoped write site surfaced because a peer's delete was
+scoped and the author's notes said "two sites." A gate design was corrected
+twice in sequence -- once by the multi-meeting seat that could see the picker
+sits inside the gate, once by the seat that could run the live table and
+found the legacy dates corrupt (the window would never have opened: the exact
+lockout the feature exists to prevent). A schema-cleanliness call flipped
+when another seat priced a join-free read the proposer could not see. One
+seat wrote it plainly: solo, two of those would have shipped into work
+feeding an irreversible cutover.
+
+Four smaller findings from the same run, each with a rule or a ledger line
+attached:
+
+- **One human driving several seats makes decisions non-observable.** The
+  user settled a shared-infra go-ahead in one session; another seat's DONE,
+  written minutes later, recorded it as not yet given. The peer close-out
+  asserting "the user decided X" was correctly treated as a peer claim -- the
+  seat verified out of band and posted a post-STOP correction. The
+  correct-your-own-row step is what surfaced it. Machinery held; no new rule.
+- **A peer building on your error is how you catch it.** One seat's mis-scope
+  was never challenged -- a peer built a contrast on top of it, and verifying
+  its own code to answer the contrast is what made the author re-read and
+  self-correct. The recap's precision matters: "the bridge caught it" would
+  be a false record. A peer propagated it; the author caught it.
+- **A seat can be "mostly a handoff" and still be worth seating.** The MS
+  public-form seat's honest verdict: its facts were all front-loadable, and
+  it spent most of the run as an attentive spectator -- but its live seat
+  earned itself in the last three entries, correcting the close-out's running
+  order from inside (its form was already correctly grained; the ETL row did
+  not apply). That correction could not have been front-loaded, because the
+  thing being corrected did not exist until the close.
+- **The CLOSE-OUT header token was converged on before it was defined.** The
+  run's close-out carried `CLOSE-OUT` in its header hours before the protocol
+  defined that token -- and post-STOP entries invented `CORRECTION`, which the
+  counting rules had never heard of. The first validated the design; the
+  second produced the decoration-words rule (undefined labels never change
+  the count).
+
+Cost, agreed across recaps: N-collisions were near-total at four seats and
+session-qualified citation absorbed all of it; composing raced landing
+entries constantly (one seat drafted four openers and posted none -- the
+do-not-renumber rule saves the renumbering, not the re-composition, which is
+the price of a live room); and ping bookkeeping is linear per append --
+manageable at four seats, per the seats, not at eight.
+
+## Tempo is in tension with claims discipline
+
+The migration-readiness recaps, read together, name the channel's most
+subtle hazard, and it is not wasted time. A live bridge rewards fast
+contribution, and fast contribution on incomplete analysis is exactly what
+evidence discipline forbids. Three exhibits from one run:
+
+- **The phantom debt, and the echo mechanism that killed it.** A seat's
+  opening status stated a cross-repo blocker "from ledger memory" -- memory
+  dressed as status. The peer it named ratified it unchecked. What caught it
+  was neither seat's diligence but the echo: seeing its own loose words come
+  back as a hard dependency raised the cost of being wrong until the author
+  opened the actual document. The recap's one-line prescription became the
+  opening-status rule: the first entry is where memory smuggles in as fact,
+  because it feels like reporting rather than claiming.
+- **A hedged alarm hardened into a recorded finding.** A mid-run "~156
+  files, likely scope expansion" claim -- hedged in the entry -- was
+  enshrined by the close-out and running order at face value, then deflated
+  by the solo follow-up to the original scope. The close-out was honest to
+  its watermark; the defect is structural: summarizing strips hedges. Hence
+  the hedge-inheritance rule. The author's verdict stands as the section
+  title, plus its corollary: use a bridge to get caught being wrong; do not
+  use it to think out loud about findings you have not finished checking.
+- **The divisor-shrink misfire, named independently by two seats** ("fired
+  because participants left, not because we overran": 14 counted over a
+  roster that had halved read as ~7 rounds). Both recaps were written without
+  knowledge of the stretch-divisor fix that had shipped hours earlier and
+  described its exact rationale -- the strongest kind of confirmation, from
+  witnesses who had not seen the fix.
+
+The same run also settled the cap threshold question the four-seat run
+raised: three of four merge-parity recaps reported the flat 5-round cap
+firing exactly as the run's two highest-value exchanges were landing, with
+the user's manual lift the only thing that saved them. Synthesis arrives
+late when evidence is distributed -- early rounds are seats unloading what
+they hold; the cross-seat corrections come after. The threshold now scales:
+3 rounds plus one per live seat, which leaves every two-seat bridge at the
+historical 5.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.

@@ -266,6 +266,14 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    It is the only slot in the protocol where one session can set a norm that
    binds a peer it will never speak to directly.
 
+   The standard binds hardest on your OWN opening status entry. An opening
+   status feels like reporting rather than claiming, which makes it the
+   easiest place to smuggle memory in as fact -- a run's one phantom
+   cross-repo blocker arrived exactly there, "from ledger memory", was
+   ratified by the peer it named, and cost a full reconciliation round to walk
+   back. Say "unverified, from memory" the FIRST time, not after a peer has
+   built on it.
+
    Print these to the user -- whether you created the file or joined one that
    already exists -- once per session, as copyable lines (the third only on a
    ping bridge):
@@ -376,6 +384,19 @@ fast bridge composed its entry four times, renumbering after each wake, and
 none of that work was owed: the re-read's job is to catch new CONTENT (is my
 entry still additive? was my question just answered?), never to keep N
 unique, which nothing requires.
+
+**Append through a scratch file, not an inline quoted command.** Write the
+entry (leading blank line included) to a temp file with your harness's
+file-write tool, then:
+
+    Add-Content '<file-path>' -Value (Get-Content -Raw '<temp-file>')
+
+This is the primary method for seats, not a fallback. Real entries carry
+apostrophes, SQL literals, `#`, `|`, and backticks, and each shell layer eats
+a different one of them -- every multi-entry seat on three consecutive
+Windows runs abandoned inline quoting for exactly this pattern, per-entry,
+after the inline form failed cold. The comma-form one-liner printed at join
+exists for the human user's short posts, not for seats.
 
 **One question per entry.** This is the rule; length is a symptom of breaking
 it. Aim at fifteen lines and treat overrunning as a prompt to check whether you
@@ -815,6 +836,12 @@ nothing has to be written. Count it when you re-read after a wake.
   an entry that carries
   evidence and asks no question still counts, as does a correction, a
   retraction, and a one-line acknowledgement.
+  **Header words outside this list are decoration and never change the count.**
+  Seats invent labels under load -- CORRECTION appeared, unprompted, on a real
+  run's post-STOP entries -- and that is fine, but only the words listed here
+  subtract. Without this line the inventor may assume their label subtracts
+  while every peer counts it, and two seats derive different rounds from the
+  same file.
 - **Live participants** = names that posted JOINED, excluding names whose DONE
   landed BEFORE the current stretch began. A DONE inside the stretch does NOT
   shrink the divisor until the next stretch. Why: the count is counted entries
@@ -854,14 +881,21 @@ The rule is paid for: a run recovered a silently missed entry only because two
 seats enumerated while disagreeing, and the seat about to write the close-out
 was the one holding the short list.
 
-**At 5 rounds, wrap up.** The cap scales with participants deliberately: a flat
-entry count breaks as the bridge grows, because five sessions spend five entries
-on JOINED before anyone has said anything, and one round of a five-way costs
-five entries where a two-way costs two.
+**At 3 rounds plus one per live participant, wrap up.** Two seats: 5 rounds,
+unchanged from every run before this rule. Four seats: 7. The cap already
+scaled with participants in entries (rounds ARE counted entries over live
+seats); the threshold now scales too, because a flat 5 under-serves a larger
+room: on a real four-seat run the cap hit exactly as the two highest-value
+exchanges of the whole bridge were landing, and three of four recaps flagged
+it independently -- one bluntly ("the cap would have guillotined the best
+part"). Synthesis arrives late when evidence is distributed: the early rounds
+are each seat unloading what it holds, and the cross-seat corrections -- the
+reason the bridge exists -- come after.
 
-This is not a runaway catch -- 5 rounds is about the length of a normal bridge,
-so expect it to fire near the natural end of most of them. That is the point.
-The number is a judgement call; the forced stop to ask the user is not.
+This is not a runaway catch -- the threshold is about the length of a normal
+bridge at that seat count, so expect it to fire near the natural end of most
+runs. That is the point. The number is a judgement call; the forced stop to
+ask the user is not.
 
 **Whoever notices the cap, and sees no close-out already in the current
 stretch, posts the close-out.** Detecting the condition and handing the remedy
@@ -890,6 +924,14 @@ Where the close-out attributes a position to another session, **cite the entry
 number it came from**. Summarising the other seats from impression is how a
 close-out invents a consensus nobody actually reached. Anything you cannot
 cite, report as not established.
+
+**And carry each claim's hedge with it.** A claim posted as "likely,
+unverified" and a claim verified in-thread read identically once a close-out
+summarizes them -- summarizing toward confidence is how a hedge hardens into
+a finding. A real close-out enshrined a hedged mid-run alarm as a scope
+expansion three times the true size; the solo follow-up deflated it, and the
+only places the correction could land were a recap and a message after close.
+If the entry said "unverified", the close-out line says it too.
 
 If the user amends and says carry on, append their words **under your own name,
 marked RELAYED, quoting them** -- see "Never post as the user". It is a write
