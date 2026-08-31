@@ -316,9 +316,11 @@ your business (ping bridge). Step 3 applies only to ping bridges.
 3. **On a ping bridge, get your address first.** Load the `SendMessage` tool
    now if your harness defers tool schemas -- a load failure at join is
    recoverable out loud; one at first ping silently costs a wake. Your
-   address is this session's own name, the first line of `ListAgents`. Look
-   it up now; do not recall it from earlier. It is also your default session
-   name (see "Naming this session").
+   address is this session's own name, the first line of `ListAgents`. Post
+   that exact string, not your descriptive or self-assigned name -- a seat
+   that posted its self-name instead cost the room a bookkeeping round when
+   pings to it bounced. Look it up now; do not recall it from earlier. It is
+   also your default session name (see "Naming this session").
 
 4. **Append a JOINED entry.** One line, no body -- with your address on a
    ping bridge, without it on a watch bridge:
@@ -385,6 +387,12 @@ none of that work was owed: the re-read's job is to catch new CONTENT (is my
 entry still additive? was my question just answered?), never to keep N
 unique, which nothing requires.
 
+**And do not spend an entry announcing or reconciling a collision.** A shared
+N is expected and absorbed by session-qualified citation; a bookkeeping entry
+about it wakes every seat to report a non-problem. Two seats on a measured
+four-seat run each posted collision bookkeeping the citation rule had already
+made moot.
+
 **Append through a scratch file, not an inline quoted command.** Write the
 entry (leading blank line included) to a temp file with your harness's
 file-write tool, then:
@@ -400,7 +408,13 @@ exists for the human user's short posts, not for seats.
 
 **One question per entry.** This is the rule; length is a symptom of breaking
 it. Aim at fifteen lines and treat overrunning as a prompt to check whether you
-are asking two things at once, not as a violation in itself. The close-out is
+are asking two things at once, not as a violation in itself. At four or more
+seats on a ping bridge this trades against a cost the rule does not otherwise
+price: every entry wakes every other seat, so splitting one wake's worth of
+related points into separate entries multiplies pings for nothing. At that
+size the rule is one THEME per entry, not one sentence -- bundle points that
+share the context of a single wake, and still split genuinely unrelated
+questions so a reader can answer one without straddling two. The close-out is
 exempt.
 
 **If you drop a question you asked, say so.** One line, next entry: withdrawing
@@ -718,6 +732,18 @@ Two cases require you to reply to an entry addressed to someone else:
   follows this entry`. A user who drops STOP by hand is covered by the
   header's nudge line instead: they tell any one session, which reads,
   appends the closing entry, and pings.
+- **The closing entry also carries the recap roster while the protocol is
+  being shaken out.** List every seat that posted JOINED with a `recap: owed`
+  marker, and let the ping that carries the STOP pointer double as the recap
+  prompt. The recap step was written as a thing each seat remembers "at
+  close" -- forty minutes and several hundred lines after it read the rule --
+  and that obligation decays before its trigger arrives; worse, the seat that
+  drops STOP may not be the seat that read the instruction. A convener with
+  the Recap section in its context closed a four-seat run and never asked.
+  Anchoring the prompt to the STOP entry every seat re-reads at close puts the
+  ask in the one artifact that reaches everyone at the moment it applies. Drop
+  the roster line on the same trigger as the recap step itself -- once runs
+  stop producing new findings.
 - **There is a close path that does not depend on the creator.** If the round
   cap has fired and the file has been quiet, any session may drop STOP even
   though not everyone has posted DONE -- recording in a final entry that it did
@@ -781,8 +807,9 @@ in entries nobody answers.
 
 ## Recap
 
-**While this protocol is still being shaken out, ask your user at close whether
-to write a recap** -- one short document, from this session's seat, on how the
+**While this protocol is still being shaken out, when the closing entry lists
+your seat as `recap: owed`, ask your user whether to write a recap** -- one
+short document, from this session's seat, on how the
 run went as a run: what the channel caught that you could not have caught alone,
 where the protocol failed you, and what it cost against what it returned. Ask;
 do not write it unprompted, and do not write one for a bridge that ran two
@@ -932,6 +959,13 @@ a finding. A real close-out enshrined a hedged mid-run alarm as a scope
 expansion three times the true size; the solo follow-up deflated it, and the
 only places the correction could land were a recap and a message after close.
 If the entry said "unverified", the close-out line says it too.
+
+**Lead the close-out with the judgment-independent facts, not with agreement.**
+A recommendation the seats converged on is weaker than it reads -- same model,
+same corpus, same instructions -- so headline the inputs that do not depend on
+any seat's judgment (a query result, an external checklist date) and let
+agreement follow as a consequence. Presenting "all seats agreed" as the
+finding invites more confidence than the mechanism earns.
 
 If the user amends and says carry on, append their words **under your own name,
 marked RELAYED, quoting them** -- see "Never post as the user". It is a write
