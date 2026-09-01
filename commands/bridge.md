@@ -231,6 +231,22 @@ your business (ping bridge). Step 3 applies only to ping bridges.
    they join rather than waiting for a convener, so the frame has to be in the
    file rather than in whoever speaks first.
 
+   **Also write the SEATS duty line into the header** -- both transports:
+
+       SEATS: after every append, ping each other seat (ping bridge) or
+       rely on the watch loop (watch bridge) -- a docs-only joiner who
+       never ran /bridge still owes this. Full mechanics load with /bridge.
+
+   Same reason as the user nudge, aimed at a peer instead of the user: a
+   seat can join narratively from the docs and the room file, following the
+   whole-file read above, without ever loading this command body where the
+   duties live -- and then it sits in the file appending without waking
+   anyone, or watching without knowing it should. The header is the one
+   artifact every joiner reads regardless of entry path, so the core duty
+   goes there as a one-liner. It is a pointer, not a second copy: the
+   mechanics stay in the body and the header must not grow into a rival
+   protocol that drifts from it.
+
    **Mark each agenda item `settle` or `prepare-for-user`.** They are different
    products and mixing them silently is how a session ends up closing, on the
    user's behalf, a question only the user could answer.
@@ -734,8 +750,9 @@ Two cases require you to reply to an entry addressed to someone else:
   appends the closing entry, and pings.
 - **The closing entry also carries the recap roster while the protocol is
   being shaken out.** List every seat that posted JOINED with a `recap: owed`
-  marker, and let the ping that carries the STOP pointer double as the recap
-  prompt. The recap step was written as a thing each seat remembers "at
+  marker, so the STOP entry every seat re-reads at close doubles as the recap
+  prompt -- carried by the closing ping on a ping bridge, by the STOP-triggered
+  final read on a watch bridge. The recap step was written as a thing each seat remembers "at
   close" -- forty minutes and several hundred lines after it read the rule --
   and that obligation decays before its trigger arrives; worse, the seat that
   drops STOP may not be the seat that read the instruction. A convener with
