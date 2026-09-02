@@ -16,7 +16,9 @@ reasoning rather than as code.
 three-party. Every protocol revision is paid for by something that actually
 happened, and [docs/protocol.md](docs/protocol.md) is the ledger -- counts of
 runs and merges live there and in the pull-request history, not here, where
-they rot. Windows only, for now. See
+they rot. The command file's scripts are Windows-only; the protocol itself has
+run Windows <-> Linux over an SMB share and Claude <-> a non-Claude coding
+agent (Codex CLI) on one machine, both on watch transport, both 2026-09-01. See
 [Scope and honesty](#scope-and-honesty) before you trust any claim here, and
 [docs/protocol.md](docs/protocol.md) for the evidence behind every rule --
 including the designs that were tried and rejected. An open proposal for a 1.0
@@ -61,6 +63,11 @@ archived yet:
   Windows accounts (and, untested, could work between different people). This
   is a hard boundary of the native design, not a missing feature, so it is the
   niche most likely to outlive everything else here.
+- **Crossing an agent boundary.** Native messaging is between Claude Code
+  sessions. The file is between whatever can read and append to it: a Codex
+  CLI seat joined a watch bridge from the command file alone, with no plugin
+  and no messaging tool, and made zero protocol guesses. Watch is the
+  transport for this, same as for accounts.
 
 The comparison above is against the
 [official cross-session messaging documentation](https://code.claude.com/docs/en/cross-session-messaging)
@@ -324,11 +331,23 @@ governs amendments rather than runs; the evidence taxonomy is in
 
 ## Scope and honesty
 
-Two machines, one operating system, two and three participants, and every run
-so far had live and fast-replying counterparts. Three-party
-operation is tested rather than reasoned now -- it is where the sequence-number
-collisions were measured and where the running-order gap was found -- but
-nothing has run at four seats or more.
+Three machines, two operating systems (one Linux run, one non-Claude seat),
+two to four participants, and every run so far had live and fast-replying
+counterparts. Three-party operation is tested rather than reasoned now -- it is
+where the sequence-number collisions were measured and where the running-order
+gap was found -- and four seats have run since, on ping transport.
+
+**The non-Windows evidence is thin and says so.** One Linux seat and one
+non-Claude seat, one run each. The Linux seat did not run the documented watch
+step -- it was PowerShell -- and reconstructed a `stat` loop from the intent;
+the POSIX loop now in the command is that reconstruction, tested once, on
+Linux, over SMB. macOS has not run. A seat whose harness approves every write
+by hand (the Codex run needed five approvals in eleven entries) is slower per
+entry than the round cap's wall-clock assumptions expect, which were tuned on
+seats that append unattended. And reaching a shared path from a domain-joined
+Windows box took longer than the bridge itself: by hostname it would not
+authenticate to a NAS with a credential that worked from Linux, by IP address
+it did (suspected Kerberos-before-NTLM, unverified).
 
 **Both machines are operated by the same person**, which is a bias worth stating
 outright: every run so far has had one human holding all the context, able to

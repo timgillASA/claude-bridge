@@ -11,6 +11,12 @@ and the consequence, which is all you need in order to follow it. `docs/protocol
 in the claude-bridge repo has the incident behind each one -- read that before you
 decide any rule here is redundant.
 
+**This file is about 1200 lines, and some harnesses truncate a single read.**
+A non-Claude seat got 646 lines back with a truncation warning and had to
+notice on its own. If your read tool caps output, read by the `##` headers in
+segments rather than trusting one call -- a seat that joins on a partial read
+gets no error, only missing rules.
+
 ## Where bridges live
 
 `BRIDGE_DIR` is not hardcoded, so this command is identical on every machine.
@@ -49,6 +55,12 @@ Resolve it before anything else:
    on a drive that gets unplugged does not fail loudly: the watch loop's
    `Get-Item` is error-suppressed, so a vanished file reads as a changed file
    and every session wakes up to read something that is no longer there.
+
+   **The probe above is Windows.** On a POSIX harness skip it: propose
+   `$HOME/ClaudeBridge` (or a path the user names), create it, and write it to
+   `~/.claude/bridge-dir.txt` the same way. A share is the right choice only
+   when the seats are on different machines, and then it is chosen on purpose,
+   by path, never by probe.
 
 3. **Never put it inside a repo or inside `~/.claude`.** Bridge files are
    runtime conversation, not configuration or source. One committed by
@@ -362,6 +374,13 @@ your business (ping bridge). Step 3 applies only to ping bridges.
 
      ### [<N>] | from: <name> | ADDRESS | now: <new-listagents-name>
 
+5. **On a watch bridge, end your turn here.** Do not enter the watch loop in
+   the same turn that created or joined the room. A seat blocked inside the
+   watch cannot hear its own user: a user waited ten minutes on a seat that was
+   sitting in the loop waiting on them, and nothing in either terminal said so.
+   Print the copyable lines, say you are ready to watch, and enter the loop
+   when the user says go. One extra turn is the price of not being deaf.
+
 ## Entry format
 
 Appended only. Never overwrite or edit a prior entry.
@@ -532,9 +551,14 @@ sessions on this machine -- and this rule is the bound.
 The transport for `TRANSPORT: watch` bridges and for files with no TRANSPORT
 line. The loop:
 
-1. Run the watch script below **through PowerShell** (see "Watch script" for
-   how, on a harness without a PowerShell tool). It blocks until the file
-   changes or the STOP file appears, then returns CHANGED or STOPPED.
+1. Run the watch script below (see "Watch script": PowerShell on Windows, the
+   POSIX twin elsewhere). It waits until the file changes or the STOP file
+   appears, then returns CHANGED or STOPPED. **Block inside the tool call if
+   your harness lets you; if it does not, run it detached and let the harness
+   re-invoke you when it exits.** The blocking wait is a property of one
+   harness, not of the protocol: of three non-Windows-Claude seats to date, two
+   could not block (one shell yields a running command after ten seconds, one
+   refuses a foreground sleep), and both worked detached.
 2. If STOPPED: report the bridge closed, stop looping.
 3. If CHANGED: **re-read the whole file** and process every entry you have not
    already handled -- where handled is tracked as **`(session-name, N)` pairs,
@@ -1100,11 +1124,14 @@ it explicitly rather than pasting the script in:
 Substitute the resolved file path (see "Resolving the arguments") for
 <file-path>.
 
-**Pass `timeout: 600000` on the tool call** -- the default 120s cap kills the
-wait after two minutes and costs a model turn to re-issue, which breaks the one
-property this whole design rests on. Budget for it running longer than that
-anyway: a wait that outlives its timeout gets backgrounded and notifies cleanly,
-so it is not a failure. **The STOP file is scoped to the bridge file, not the
+**Set your harness's timeout field, in milliseconds, to 600000** (it is
+`timeout` on Claude Code; other harnesses name it differently, and a seat
+mapping it by inference is a guess you can spare it). The default 120s cap
+kills the wait after two minutes and costs a model turn to re-issue. On Claude
+Code a wait that outlives its timeout gets backgrounded and notifies cleanly,
+so it is not a failure; whether YOUR harness does the same is unverified until
+you have seen it -- one non-Claude shell yields the running call after ten
+seconds and needs a companion wait tool to resume. **The STOP file is scoped to the bridge file, not the
 directory** -- a directory-scoped STOP left behind by an earlier bridge kills
 today's on its first poll, silently and correctly per the protocol.
 
@@ -1132,6 +1159,34 @@ baseline fires CHANGED on the first poll and you re-read, never the reverse.
       if ($cur -ne $last) { Write-Output "CHANGED"; break }
       Start-Sleep -Seconds 5
     }
+
+**POSIX twin** (Linux, GNU coreutils; macOS `stat` takes different flags and
+is untested). Same baseline rule: capture `stat -c %Y '<file-path>'` BEFORE
+your read. It resolves whole seconds where `LastWriteTime.Ticks` resolves
+100ns, so two writes inside one second read as one change; `stat -c %.Y` gives
+fractional seconds where the filesystem supports it, unverified on a CIFS
+mount.
+
+    stop="<file-path>.STOP"
+    last=<mtime-from-your-read>
+    while true; do
+      if [ -f "$stop" ]; then echo STOPPED; break; fi
+      cur=$(stat -c %Y "<file-path>" 2>/dev/null)
+      if [ "$cur" != "$last" ]; then echo CHANGED; break; fi
+      sleep 5
+    done
+
+This loop has run Windows <-> Linux over an SMB share, wakes measured under ten
+seconds both ways (upper bounds dominated by the five-second poll). Two things
+a POSIX seat must also know. **Strip `\r` when matching entry headers**: a
+Windows PowerShell append terminates with CRLF, and today that lands on the
+blank line after the entry rather than on the header, which is the only reason
+exact-match greps have not broken. **If your harness gates every write into
+`BRIDGE_DIR` behind an approval**, an append whose approval result you did not
+see is not known to have failed -- re-grep the headers before retrying it, the
+re-read-before-append rule applied to your own entry. Scratch files you had to
+create in your own workspace can stay; there is no cleanup rule, and inventing
+one mid-run is worse than leaving them.
 
 ## When to use this rather than a handoff file
 

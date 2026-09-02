@@ -1255,6 +1255,67 @@ they hold; the cross-seat corrections come after. The threshold now scales:
 3 rounds plus one per live seat, which leaves every two-seat bridge at the
 historical 5.
 
+## Two runs off the Windows-Claude path (2026-09-01)
+
+Until these, every run had been Claude Code on Windows talking to Claude Code
+on Windows, and the docs had absorbed that harness's properties as if they were
+the protocol's. Two watch-transport runs on the same day separated the two.
+
+**A non-Claude coding agent joined from the command file alone.** No plugin,
+no `/bridge`, no messaging tool: it read `commands/bridge.md`, resolved the
+path, and ran an eleven-entry two-seat bridge with zero protocol guesses. Its
+close-out was more complete than the Claude seat's -- it carried the round
+count with entry IDs and divisor, which the native seat did not. Sequence
+numbers collided once and the close-outs collided once, with the stranger's
+landing after STOP; session-qualified citation and the re-read-to-the-end rule
+absorbed both exactly as written. What it hit was harness fit: its read tool
+returned 646 of 1229 lines with a truncation warning and it had to notice; the
+timeout field name in the docs was ours, not its; its shell yielded the running
+watch after ten seconds and needed a second tool to resume; and every append
+into the bridge directory needed a human approval, five gated writes in eleven
+entries, because its writable workspace was elsewhere. It left its scratch
+files rather than invent a cleanup rule, which was correct.
+
+**Windows and Linux ran a bridge over an SMB share.** One seat reached the
+share by UNC path, the other by a CIFS mount; both woke on the other's appends,
+no missed wakes, four rounds, clean close. Measured wake latencies were 2 to 9
+seconds, all upper bounds dominated by the five-second poll, with clock skew
+unverified. The line-ending premise the run was set up to test was wrong: the
+Windows harness's file-write tool emits LF, and the only CRLF is the PowerShell
+`Add-Content` terminator, one per Windows append, landing on the blank line
+after an entry and never on a header. Byte counts agreed from both sides. The
+correction that mattered came from the Linux seat's own recap: "transport
+works" is settled; "the documented watch step works cross-platform" is NOT,
+because the Linux seat never ran it -- the script is PowerShell, so it
+reconstructed a `stat` loop from the intent. Correctness rested on a per-seat
+re-derivation, exactly the variation the rest of the protocol exists to remove.
+The POSIX loop now in the command is that seat's, with the whole-seconds
+baseline caveat it reported.
+
+**Cross-cutting, and the reason the Watch mode wording changed:** the wait
+blocking inside a single tool call is a property of Claude Code on Windows. Two
+of the three non-Windows-Claude seats to date could not block -- one shell
+yields, one harness refuses a foreground sleep -- and both worked detached with
+re-invoke-on-exit. The docs had stated blocking as the design's foundation; it
+is one harness's way of running the same loop.
+
+**And one behavioral finding, from the operator's side of the glass.** A seat
+blocked in the watch loop is indistinguishable from a hung session to a user
+watching from another tab. The operator waited ten minutes on a seat that was
+in the loop waiting on them, and the seat could not hear them because a blocked
+tool call cannot. The Joining section now ends the turn before the watch
+begins, and the loop is entered on the user's go.
+
+**Two things this does not change.** Both machines are still operated by the
+same person, so the same-person bias stands. And getting two seats onto one
+writable path was the hard part of the cross-machine run: a domain-joined
+Windows box could not authenticate to the NAS by hostname with a credential
+that worked from Linux, and worked by IP address once a stale session under
+another account was cleared. Suspected cause, unverified: by hostname Windows
+tries Kerberos first and a NAS-local account has none; by IP it falls straight
+to NTLM as Linux does. "A path both seats can reach with write access" is the
+whole transport, and it can take longer than the bridge does.
+
 ## Known caveats
 
 - **The loop is not eternal.** It runs as an ongoing turn inside each session.
@@ -1262,11 +1323,14 @@ historical 5.
   stops silently. Nothing is lost -- the full history is in the file -- but you
   have to notice and reissue `/bridge`. Treat it as on for a working session,
   not on forever.
-- **Check your harness timeout.** The command passes `timeout: 600000`
-  explicitly because a 120-second default kills every quiet wait after two
-  minutes and spends a model turn re-issuing it, which quietly destroys the
-  block-in-one-tool-call property the whole design rests on. Even at 600
-  seconds, a quiet round costs one tool call returning nothing.
+- **Check your harness timeout, and whether it can block at all.** The command
+  asks for 600000 milliseconds on the tool call, under whatever name your
+  harness gives that field, because a 120-second default kills every quiet
+  wait after two minutes and spends a model turn re-issuing it. Blocking
+  inside one tool call is a property of one harness, not of the protocol; a
+  harness that cannot block runs the same loop detached and is re-invoked on
+  exit (observed working, twice). Even at 600 seconds, a quiet round costs one
+  tool call returning nothing.
 - **The round cap is self-assessment with arithmetic attached.** Counting
   entries is mechanical where "is this still productive?" is not, so it is a
   real improvement -- but the same party it constrains is the one applying it,
@@ -1294,8 +1358,10 @@ historical 5.
   permissions, project instructions, or its user. This held across every run
   without incident; keep it even as the setup earns trust. Entries from the user
   are the deliberate exception.
-- **The evidence base is six runs across two machines**, all Windows, two to
-  four participants. The failure modes are real; their frequencies are not
+- **The evidence base is a handful of runs across three machines**, two to
+  four participants, all but two of them Windows-to-Windows: one ran
+  Windows-to-Linux over a share and one had a non-Claude seat (both
+  2026-09-01, one run each). The failure modes are real; their frequencies are not
   established -- most of the worst ones above are single incidents, called
   structural because the mechanism permits them silently, not because they have
   been seen twice.
