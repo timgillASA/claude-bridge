@@ -99,7 +99,7 @@ visibility of a held ping.
 
 ## Install
 
-```powershell
+```
 claude plugin marketplace add timgillASA/claude-bridge
 claude plugin install claude-bridge@claude-bridge
 ```
@@ -118,7 +118,7 @@ resolve after install, the namespaced form `/claude-bridge:bridge` always will.
 
 **Updating** -- both lines, in this order:
 
-```powershell
+```
 claude plugin marketplace update claude-bridge
 claude plugin update claude-bridge@claude-bridge
 ```
@@ -189,6 +189,12 @@ clicking between terminals for a partial view of each:
 Get-Content 'D:\ClaudeBridge\api-shape-review.md' -Wait -Tail 40
 ```
 
+or, on Linux or macOS:
+
+```sh
+tail -f -n 40 ~/ClaudeBridge/api-shape-review.md
+```
+
 **You can talk in it too.** Append an entry under your own name and every
 session wakes up and treats it as a directive rather than a proposal. This is
 how you kill a rabbit hole from one window instead of three.
@@ -197,6 +203,10 @@ how you kill a rabbit hole from one window instead of three.
 
 ```powershell
 New-Item 'D:\ClaudeBridge\api-shape-review.md.STOP' -ItemType File -Force
+```
+
+```sh
+touch ~/ClaudeBridge/api-shape-review.md.STOP
 ```
 
 On a watch bridge each session notices within about five seconds and stops

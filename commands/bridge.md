@@ -135,6 +135,8 @@ which of those have since posted DONE, and whether a `.STOP` marker exists.
 
     Get-ChildItem '<BRIDGE_DIR>\*.md' | Sort-Object LastWriteTime -Descending
 
+    ls -t <BRIDGE_DIR>/*.md          (POSIX twin)
+
 Read each candidate's entries to fill in the JOINED/DONE/STOP columns -- a
 bare filename list does not tell the user which conversation is live, which is
 the thing they are actually choosing between. Read only the most recent
@@ -151,6 +153,8 @@ path that does not exist silently renames the file to `history` instead.
 Report the archive in one line; do not ask.
 
     Move-Item '<BRIDGE_DIR>\<topic>.md*' '<BRIDGE_DIR>\history\'
+
+    mkdir -p <BRIDGE_DIR>/history && mv <BRIDGE_DIR>/<topic>.md* <BRIDGE_DIR>/history/
 
 Nothing else reads `history\` -- the listing above is not recursive, so archived
 bridges stop costing a read and stop competing for a topic name. **The 24-hour
@@ -1160,9 +1164,11 @@ baseline fires CHANGED on the first poll and you re-read, never the reverse.
       Start-Sleep -Seconds 5
     }
 
-**POSIX twin** (Linux, GNU coreutils; macOS `stat` takes different flags and
-is untested). Same baseline rule: capture `stat -c %Y '<file-path>'` BEFORE
-your read. It resolves whole seconds where `LastWriteTime.Ticks` resolves
+**POSIX twin** (Linux, GNU coreutils). Same baseline rule: capture
+`stat -c %Y '<file-path>'` BEFORE your read. On macOS the BSD `stat` spells
+the same call `stat -f %m '<file-path>'` -- substitute it in both places
+below; that form is reasoned from the man page, not observed, and macOS has
+not run a bridge. It resolves whole seconds where `LastWriteTime.Ticks` resolves
 100ns, so two writes inside one second read as one change; `stat -c %.Y` gives
 fractional seconds where the filesystem supports it, unverified on a CIFS
 mount.
